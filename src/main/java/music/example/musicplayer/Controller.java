@@ -88,6 +88,9 @@ public class Controller implements Initializable {
         songProgress.setStyle("-fx-accent: #00ff00");
     }
 
+    /**
+     * Insert new songs from a list into media then building player with this list
+     */
     private void insertSong() {
         media = new Media(songs.get(songNumber).toURI().toString());
         mediaPlayer = new MediaPlayer(media);
@@ -105,6 +108,9 @@ public class Controller implements Initializable {
         return repeat.isSelected();
     }
 
+    /**
+     * Enable/Disable repeat option
+     */
     public void enDisRepeat() {
         if (repeat.isDisabled())
             repeat.setDisable(false);
@@ -119,6 +125,9 @@ public class Controller implements Initializable {
             shuffle.setDisable(true);
     }
 
+    /**
+     * Play the current track. Begin timer and use the current speed. Also, get volume from slider then play the track
+     */
     public void play() {
 
         if (timer != null) {
@@ -172,6 +181,9 @@ public class Controller implements Initializable {
         play();
     }
 
+    /**
+     * Selecting a random song from the list of songs
+     */
     private void shuffleAct() {
         songNumber = (int) (Math.random() * songs.size());
         mediaPlayer.stop();
@@ -239,8 +251,11 @@ public class Controller implements Initializable {
     }
 
     public void endTimer() {
-        timer.cancel();
-        running = false;
+        if (timer != null) {
+            timer.cancel();
+            timer = null;
+        }
+
     }
 
     public void openFile() {

@@ -10,14 +10,14 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="166.0" prefWidth="637.0" style="-fx-background-color: #0C120C;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="music.example.musicplayer.Controller">
+<AnchorPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="166.0" prefWidth="642.0" style="-fx-background-color: #0C120C;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="music.example.musicplayer.Controller">
    <children>
       <Label fx:id="songLabel" alignment="CENTER" layoutX="22.0" layoutY="18.0" prefHeight="44.0" prefWidth="600.0" text="Music Player.Mp3" textFill="#bf2b2b">
          <font>
             <Font name="Cambria Bold" size="36.0" />
          </font>
       </Label>
-      <ProgressBar fx:id="songProgress" layoutX="11.0" layoutY="68.0" prefHeight="20.0" prefWidth="622.0" progress="0.0">
+      <ProgressBar fx:id="songProgress" layoutX="9.0" layoutY="68.0" prefHeight="20.0" prefWidth="624.0" progress="0.0">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></ProgressBar>
