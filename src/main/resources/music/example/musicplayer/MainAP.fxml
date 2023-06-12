@@ -17,7 +17,10 @@
             <Font name="Cambria Bold" size="36.0" />
          </font>
       </Label>
-      <ProgressBar fx:id="songProgress" layoutX="11.0" layoutY="68.0" prefHeight="20.0" prefWidth="622.0" progress="0.0" />
+      <ProgressBar fx:id="songProgress" layoutX="11.0" layoutY="68.0" prefHeight="20.0" prefWidth="622.0" progress="0.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></ProgressBar>
       <Button fx:id="playButton" alignment="CENTER" layoutX="10.0" layoutY="88.0" mnemonicParsing="false" onAction="#play" prefHeight="38.0" prefWidth="86.0" text="Play">
          <font>
             <Font name="Webdings" size="19.0" />

@@ -1,5 +1,6 @@
 package music.example.musicplayer;
 
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -51,6 +52,15 @@ public class Controller implements Initializable {
     @Override
     public void initialize(URL arg0, ResourceBundle arg1){
 
+        //Click to move progress song into a desired time.
+        songProgress.setOnMouseClicked(event -> {
+            double totalWidth = songProgress.getWidth();
+            double clickPosition = event.getX();
+            double percent = clickPosition / totalWidth;
+            double seekTime = mediaPlayer.getTotalDuration().toSeconds() * percent;
+            mediaPlayer.seek(Duration.seconds(seekTime));
+        });
+
         songs = new ArrayList<>();
         directory = new File("Music");
         files = directory.listFiles();
@@ -77,6 +87,14 @@ public class Controller implements Initializable {
         });
         songProgress.setStyle("-fx-accent: #00ff00");
     }
+
+    private void insertSong() {
+        media = new Media(songs.get(songNumber).toURI().toString());
+        mediaPlayer = new MediaPlayer(media);
+        Platform.runLater(() -> {
+            songLabel.setText(songs.get(songNumber).getName());
+        });
+    }
     public boolean shuffle() {
 
         return shuffle.isSelected();
@@ -101,14 +119,11 @@ public class Controller implements Initializable {
             shuffle.setDisable(true);
     }
 
-    private void insertSong() {
-        media = new Media(songs.get(songNumber).toURI().toString());
-        mediaPlayer = new MediaPlayer(media);
-        songLabel.setText(songs.get(songNumber).getName());
-    }
-
     public void play() {
 
+        if (timer != null) {
+            endTimer();
+        }
         beginTimer();
         changeSpeed(null);
         mediaPlayer.setVolume(volumeSlider.getValue() * 0.01);
@@ -116,19 +131,15 @@ public class Controller implements Initializable {
     }
 
     public void stop() {
-
         endTimer();
         mediaPlayer.stop();
-
     }
-
     public void pause() {
         songProgress.setProgress(0);
         mediaPlayer.pause();
     }
 
     public void reset() {
-
         mediaPlayer.seek(Duration.seconds(0));
         play();
     }
@@ -199,7 +210,6 @@ public class Controller implements Initializable {
         if (speedBox.getValue() == null) {
             speedBox.setValue("100");
         }
-
         mediaPlayer.setRate(Integer.parseInt(speedBox.getValue()) * 0.01);
     }
 
@@ -210,16 +220,18 @@ public class Controller implements Initializable {
 
             public void run() {
                 running = true;
-                double current = 0;
-                double end = 0;
                 if (mediaPlayer != null) {
-                    current = mediaPlayer.getCurrentTime().toSeconds();
-                    end = mediaPlayer.getTotalDuration().toSeconds();
-                }
-
-                if (current/end == 1){
-                    endTimer();
-                    play();
+                    Duration current = mediaPlayer.getCurrentTime();
+                    Duration total = mediaPlayer.getTotalDuration();
+                    if (current.equals(total)){
+                        endTimer();
+                        next();
+                    } else {
+                        double progress = current.toSeconds() / total.toSeconds();
+                        Platform.runLater(() -> {
+                            songProgress.setProgress(progress);
+                        });
+                    }
                 }
             }
         };
