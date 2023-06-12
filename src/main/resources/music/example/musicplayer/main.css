@@ -1,0 +1,48 @@
+AnchorPane {
+    -fx-background-color: #2A2A1E;
+}
+Label{
+    -fx-font-family: "Hervetica";
+    -fx-font-style: italic;
+    -fx-text-fill: #FF4365;
+}
+
+Alert {
+    -fx-background-color: #2A2A1E;
+    -fx-text-fill: #FF4365;
+    -fx-font-family: "Hervetica";
+    -fx-font-style: italic;
+    -fx-padding: 10;
+}
+/*
+Button  {
+     -fx-background-color: #008287;
+     -fx-border-color: #FFFFFF;
+     -fx-border-width: 1;
+     -fx-text-fill: #FFFFFF;
+     -fx-font-family: "Times New Roman";
+     -fx-font-style: italic;
+     -fx-font-size: 19px;
+     -fx-background-radius: 5 5 5 5;
+     -fx-border-radius: 5 5 5 5;
+}
+
+ComboBox:hover {
+    -fx-background-color: #333333;
+}
+
+ComboBox:active{
+        -fx-background-color: #008287;
+    	-fx-text-fill: #000000;
+    	-fx-font-weight: bold;
+}
+
+Button:hover {
+    -fx-background-color: #FFFFFF;
+}
+
+Button:pressed {
+    -fx-background-color: #FFFFFF;
+	-fx-text-fill: #000000;
+	-fx-font-weight: bold;
+}
