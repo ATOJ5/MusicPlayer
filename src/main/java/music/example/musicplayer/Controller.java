@@ -34,7 +34,7 @@ public class Controller implements Initializable {
     @FXML
     private Slider volumeSlider;
     @FXML
-    private CheckBox shuffle;
+    private CheckBox shuffle,repeat;
     private File directory;
     private File[] files;
     private ArrayList<File> songs;
@@ -42,7 +42,9 @@ public class Controller implements Initializable {
     private int[] speed = {25,50,75,100,125,150,175,200};
     private Timer timer;
     private TimerTask task;
-    private boolean running;
+    private boolean running=false;
+    private boolean repeatON=false;
+    private boolean shuffleON=false;
     private Media media;
     private MediaPlayer mediaPlayer;
 
@@ -76,12 +78,32 @@ public class Controller implements Initializable {
         songProgress.setStyle("-fx-accent: #00ff00");
     }
     public boolean shuffle() {
+
         return shuffle.isSelected();
     }
+
+    public boolean repeat() {
+
+        return repeat.isSelected();
+    }
+
+    public void enDisRepeat() {
+        if (repeat.isDisabled())
+            repeat.setDisable(false);
+        else
+            repeat.setDisable(true);
+    }
+
+    public void endDisShuffle() {
+        if (shuffle.isDisabled())
+            shuffle.setDisable(false);
+        else
+            shuffle.setDisable(true);
+    }
+
     private void insertSong() {
         media = new Media(songs.get(songNumber).toURI().toString());
         mediaPlayer = new MediaPlayer(media);
-
         songLabel.setText(songs.get(songNumber).getName());
     }
 
@@ -108,55 +130,68 @@ public class Controller implements Initializable {
     public void reset() {
 
         mediaPlayer.seek(Duration.seconds(0));
+        play();
     }
     public void previous(){
 
-        if (shuffle()) {
-            songNumber = (int) (Math.random() * songs.size());
-            mediaPlayer.stop();
-            insertSong();
-        } else {
-            if (songNumber == 0 ) {
-                songNumber = songs.size() -1;
-                mediaPlayer.stop();
-                insertSong();
-
-            } else {
-                songNumber--;
-                mediaPlayer.stop();
-                insertSong();
-            }
+        if (shuffle() && !repeat()) {
+            shuffleAct();
+        } else if (!repeat()) {
+            sequentialBack();
+        } else if (repeat()) {
+            repeatAct();
         }
-        if (running){
+        if (running) {
             endTimer();
         }
         play();
-
     }
 
     public void next() {
-
-        if (shuffle()) {
-            songNumber = (int) (Math.random() * songs.size());
-            mediaPlayer.stop();
-            insertSong();
-        } else {
-            if (songNumber < songs.size() -1 ) {
-                songNumber++;
-                mediaPlayer.stop();
-                insertSong();
-
-            } else {
-                songNumber = 0;
-                mediaPlayer.stop();
-                insertSong();
-            }
+        if (shuffle() && !repeat()) {
+            shuffleAct();
+        } else if (!repeat()) {
+            sequentialNext();
+        } else if (repeat()) {
+            repeatAct();
         }
-        if (running){
+        if (running) {
             endTimer();
         }
         play();
+    }
 
+    private void shuffleAct() {
+        songNumber = (int) (Math.random() * songs.size());
+        mediaPlayer.stop();
+        insertSong();
+        endTimer();
+    }
+
+    private void sequentialBack(){
+
+        if (songNumber == 0) {
+            songNumber = songs.size() - 1;
+        } else {
+            songNumber--;
+        }
+        mediaPlayer.stop();
+        insertSong();
+    }
+    private void sequentialNext() {
+        if (songNumber < songs.size() - 1) {
+            songNumber++;
+        } else {
+            songNumber = 0;
+        }
+        mediaPlayer.stop();
+        insertSong();
+        endTimer();
+    }
+
+    private void repeatAct() {
+        reset();
+        play();
     }
 
     public void changeSpeed (ActionEvent event) {
@@ -175,12 +210,16 @@ public class Controller implements Initializable {
 
             public void run() {
                 running = true;
-                double current = mediaPlayer.getCurrentTime().toSeconds();
-                double end = mediaPlayer.getTotalDuration().toSeconds();
-                songProgress.setProgress(current/end);
+                double current = 0;
+                double end = 0;
+                if (mediaPlayer != null) {
+                    current = mediaPlayer.getCurrentTime().toSeconds();
+                    end = mediaPlayer.getTotalDuration().toSeconds();
+                }
 
                 if (current/end == 1){
                     endTimer();
+                    play();
                 }
             }
         };
@@ -198,7 +237,4 @@ public class Controller implements Initializable {
     public void openFolder() {
         System.out.println("Folder opened!");
     }
-
-
-
 }

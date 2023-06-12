@@ -68,6 +68,7 @@
       </Button>
       <ComboBox fx:id="speedBox" layoutX="525.0" layoutY="88.0" onTouchReleased="#next" prefHeight="38.0" prefWidth="107.0" promptText="Speed" />
       <Slider fx:id="volumeSlider" blockIncrement="5.0" layoutX="240.0" layoutY="126.0" prefHeight="44.0" prefWidth="140.0" value="50.0" />
-      <CheckBox fx:id="shuffle" layoutX="542.0" layoutY="140.0" mnemonicParsing="false" text="Shuffle" textFill="#ff6f1c" />
+      <CheckBox fx:id="shuffle" layoutX="542.0" layoutY="140.0" mnemonicParsing="false" onAction="#enDisRepeat" text="Shuffle" textFill="#ff6f1c" />
+      <CheckBox fx:id="repeat" layoutX="465.0" layoutY="140.0" mnemonicParsing="false" onAction="#endDisShuffle" text="Repeat" textFill="#ff6f1c" />
    </children>
 </AnchorPane>
