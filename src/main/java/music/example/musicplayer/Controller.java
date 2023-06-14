@@ -98,15 +98,9 @@ public class Controller implements Initializable {
             songLabel.setText(songs.get(songNumber).getName());
         });
     }
-    public boolean shuffle() {
+    public boolean shuffle() { return shuffle.isSelected();}
 
-        return shuffle.isSelected();
-    }
-
-    public boolean repeat() {
-
-        return repeat.isSelected();
-    }
+    public boolean repeat() {return repeat.isSelected();}
 
     /**
      * Enable/Disable repeat option
@@ -124,12 +118,10 @@ public class Controller implements Initializable {
         else
             shuffle.setDisable(true);
     }
-
     /**
      * Play the current track. Begin timer and use the current speed. Also, get volume from slider then play the track
      */
     public void play() {
-
         if (timer != null) {
             endTimer();
         }
@@ -258,10 +250,6 @@ public class Controller implements Initializable {
 
     }
 
-    public void openFile() {
-        System.out.println("File opened!");
-    }
-    public void openFolder() {
-        System.out.println("Folder opened!");
-    }
+    public void openFile() {System.out.println("File opened!");}
+    public void openFolder() {System.out.println("Folder opened!");}
 }

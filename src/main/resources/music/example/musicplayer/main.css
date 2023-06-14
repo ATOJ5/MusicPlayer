@@ -1,19 +1,45 @@
-AnchorPane {
-    -fx-background-color: #2A2A1E;
+@font-face {
+    src: url("styles/Raleway.ttf");
 }
-Label{
-    -fx-font-family: "Hervetica";
-    -fx-font-style: italic;
+
+
+.controlButton {
+
+    -fx-background-radius: 70%;
+    -fx-min-width: 40px;
+    -fx-min-height: 40px;
+    -fx-max-width: 40px;
+    -fx-max-height: 40px;
+}
+
+.controlButton:hover {
+    -fx-border-color: inherit;
+    -fx-text-fill: inherit;
+}
+
+.play{
+    -fx-background-color: #FFFFFF; /* Color de fondo del botón */
+}
+
+.AnchorPane {
+    -fx-background-color: linear-gradient(to right, black, gray);
+    -fx-border-radius: 50%;
+}
+.songLabel{
+    -fx-font-family:'Raleway', sans-serif;
     -fx-text-fill: #FF4365;
+    -fx-font-size: 2.5em;
+    -fx-font-weight: bold;
 }
 
 Alert {
     -fx-background-color: #2A2A1E;
     -fx-text-fill: #FF4365;
-    -fx-font-family: "Hervetica";
+    -fx-font-family: "Helvetica";
     -fx-font-style: italic;
     -fx-padding: 10;
 }
+
 /*
 Button  {
      -fx-background-color: #008287;
