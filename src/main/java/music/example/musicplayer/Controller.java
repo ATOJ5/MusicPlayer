@@ -182,7 +182,6 @@ public class Controller implements Initializable {
         insertSong();
         endTimer();
     }
-
     private void sequentialBack(){
 
         if (songNumber == 0) {
