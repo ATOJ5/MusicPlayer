@@ -181,6 +181,7 @@ public class Controller implements Initializable {
         mediaPlayer.stop();
         insertSong();
         endTimer();
+
     }
     private void sequentialBack(){
 
