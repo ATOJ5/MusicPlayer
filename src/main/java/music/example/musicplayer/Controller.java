@@ -92,10 +92,10 @@ public class Controller implements Initializable {
         }
         speedBox.setOnAction(this::changeSpeed);
 
-        expandTransition = new TranslateTransition(Duration.seconds(0.3), mainPane);
-        expandTransition.setToY(200); // Expandir hacia abajo, ajusta el valor según sea necesario
+        //Expansion/Collapse CFG
 
-        // Configurar la transición de contracción
+        expandTransition = new TranslateTransition(Duration.seconds(0.3), mainPane);
+        expandTransition.setToY(200);
         collapseTransition = new TranslateTransition(Duration.seconds(0.3), mainPane);
         collapseTransition.setToY(-mainPane.getPrefHeight());
 
