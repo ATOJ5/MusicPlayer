@@ -8,6 +8,7 @@ module music.example.musicplayer {
     requires javafx.media;
     requires org.kordamp.ikonli.core;
     requires org.kordamp.ikonli.fontawesome5;
+    requires fontawesomefx;
 
 
     opens music.example.musicplayer to javafx.fxml;

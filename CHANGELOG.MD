@@ -1,4 +1,15 @@
 # Changelog
+## MusicPlayer 0.1.3
+
+<li>Added a new mute option</li>
+<li>Added new expand option</li>
+<li>Added fixed Height/Width</li>
+<li>Added some checks to update pause/play gliyph after next/stop/others buttoms</li>
+<li>Updated button style: Most of the buttons are now invisible</li>
+<li>Updated fuctions to adapt new mute option</li>
+<li>Removed the Pause button. The Play button now functions as both play and pause.</li>
+<li>Fixed a bug where buttons didn't work when clicking on the buttom's corner.</li>
+
 ## MusicPlayer 0.1.2
 
 <li>Added Font Awesome Icons library</li>

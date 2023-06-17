@@ -16,6 +16,9 @@ import java.io.IOException;
 public class MainAPP extends Application {
 
     public static Controller controller;
+    public double height = 205;
+    public double width = 650;
+
 
     @Override
     public void start(Stage stage)  {
@@ -27,6 +30,7 @@ public class MainAPP extends Application {
 
             controller = loader.getController();
 
+
             Scene scene = new Scene(root);
             JMetro jMetro = new JMetro();
 
@@ -36,8 +40,10 @@ public class MainAPP extends Application {
             stage.setTitle("Music Player");
             Image icon = new Image("icon.png");
             stage.getIcons().add(icon);
-            stage.setX(50);
-            stage.setY(50);
+            stage.setWidth(width);
+            stage.setHeight(height);
+            stage.setX(200);
+            stage.setY(250);
             jMetro.setScene(scene);
             jMetro.setStyle(Style.DARK);
 
@@ -69,6 +75,9 @@ public class MainAPP extends Application {
             stage.close();
         }
     }
+
+
+
 
     public static void main(String[] args) {
         launch();

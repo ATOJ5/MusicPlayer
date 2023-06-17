@@ -5,11 +5,15 @@
 
 .controlButton {
 
-    -fx-background-radius: 70%;
+    -fx-background-radius: 50%;
     -fx-min-width: 40px;
     -fx-min-height: 40px;
     -fx-max-width: 40px;
     -fx-max-height: 40px;
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+
 }
 
 .controlButton:hover {
@@ -17,13 +21,28 @@
     -fx-text-fill: inherit;
 }
 
+.auxButton {
+
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+    -fx-min-width: 20px;
+    -fx-min-height: 20px;
+    -fx-max-width: 20px;
+    -fx-max-height: 20px;
+}
+
+.auxButton:hover {
+    -fx-border-color: inherit;
+    -fx-text-fill: inherit;
+}
+
 .play{
-    -fx-background-color: #FFFFFF; /* Color de fondo del botón */
+    -fx-background-color: #FFFFFF;
 }
 
 .AnchorPane {
     -fx-background-color: linear-gradient(to right, black, gray);
-    -fx-border-radius: 50%;
 }
 .songLabel{
     -fx-font-family:'Raleway', sans-serif;

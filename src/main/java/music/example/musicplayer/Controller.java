@@ -1,14 +1,15 @@
 package music.example.musicplayer;
 
+import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
-
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
@@ -17,6 +18,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.stage.Screen;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class Controller implements Initializable {
@@ -29,13 +32,17 @@ public class Controller implements Initializable {
     @FXML
     private Label songTime;
     @FXML
-    private Button playButton,stopButton,resetButton,previousButton,nextButton;
+    private Button playButton,volumeButton,stopButton,resetButton,previousButton,nextButton;
     @FXML
     private ComboBox<String> speedBox;
     @FXML
     private Slider volumeSlider;
     @FXML
     private CheckBox shuffle,repeat;
+    @FXML
+    private FontAwesomeIcon icon,iconVolume;
+    @FXML
+    private ToggleButton expand;
     private File directory;
     private File[] files;
     private ArrayList<File> songs;
@@ -48,7 +55,12 @@ public class Controller implements Initializable {
     private boolean shuffleON=false;
     private Media media;
     private MediaPlayer mediaPlayer;
+    private boolean isPlaying = false;
+    private boolean isMuted = false;
+    private TranslateTransition expandTransition;
+    private TranslateTransition collapseTransition;
 
+    private Stage stage;
     @Override
     public void initialize(URL arg0, ResourceBundle arg1){
 
@@ -61,6 +73,7 @@ public class Controller implements Initializable {
             mediaPlayer.seek(Duration.seconds(seekTime));
         });
 
+        // directory/files of songs
         songs = new ArrayList<>();
         directory = new File("Music");
         files = directory.listFiles();
@@ -73,11 +86,20 @@ public class Controller implements Initializable {
         }
         insertSong();
 
+        //Speed of the song
         for( int i = 0; i < speed.length; i++) {
             speedBox.getItems().add(Integer.toString(speed[i]));
         }
-
         speedBox.setOnAction(this::changeSpeed);
+
+        expandTransition = new TranslateTransition(Duration.seconds(0.3), mainPane);
+        expandTransition.setToY(200); // Expandir hacia abajo, ajusta el valor según sea necesario
+
+        // Configurar la transición de contracción
+        collapseTransition = new TranslateTransition(Duration.seconds(0.3), mainPane);
+        collapseTransition.setToY(-mainPane.getPrefHeight());
+
+        //volume
         volumeSlider.valueProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
@@ -85,6 +107,8 @@ public class Controller implements Initializable {
                 mediaPlayer.setVolume(volumeSlider.getValue() * 0.01);
             }
         });
+
+        //Style of progress bar
         songProgress.setStyle("-fx-accent: #00ff00");
     }
 
@@ -122,26 +146,87 @@ public class Controller implements Initializable {
      * Play the current track. Begin timer and use the current speed. Also, get volume from slider then play the track
      */
     public void play() {
+
         if (timer != null) {
             endTimer();
-        }
+           }
         beginTimer();
         changeSpeed(null);
-        mediaPlayer.setVolume(volumeSlider.getValue() * 0.01);
+        if(!isMuted) {
+            mediaPlayer.setVolume(volumeSlider.getValue() * 0.01);
+        } else {
+            mediaPlayer.setVolume(0);
+        }
         mediaPlayer.play();
+    }
+
+    public void muteOnOff(){
+
+        volumeButton.setDisable(true);
+
+        if (isMuted){
+            muteOff();
+
+        } else {
+            muteOn();
+        }
+        volumeButton.setDisable(false);
+    }
+
+    private void muteOn() {
+        isMuted = true;
+        iconVolume.setGlyphName("VOLUME_OFF");
+        mediaPlayer.setVolume(0);
+    }
+
+    private void muteOff() {
+        isMuted = false;
+        iconVolume.setGlyphName("VOLUME_UP");
+        mediaPlayer.setVolume(volumeSlider.getValue() * 0.01);
+    }
+
+    public void playPause() {
+
+        playButton.setDisable(true);
+
+        if (isPlaying) {
+            isPausing();
+        } else {
+            isPlaying();
+        }
+        playButton.setDisable(false);
+    }
+
+    private void isPlaying() {
+        isPlaying = true;
+        icon.setGlyphName("PAUSE");
+        play();
+    }
+
+    private void isPausing() {
+        isPlaying = false;
+        icon.setGlyphName("PLAY");
+        pause();
     }
 
     public void stop() {
         endTimer();
+        if (!isPlaying){
+            isPlaying();
+        }
+        songProgress.setProgress(0);
+        playPause();
         mediaPlayer.stop();
     }
     public void pause() {
-        songProgress.setProgress(0);
         mediaPlayer.pause();
     }
 
     public void reset() {
         mediaPlayer.seek(Duration.seconds(0));
+        if (!isPlaying){
+            isPlaying();
+        }
         play();
     }
     public void previous(){
@@ -156,6 +241,9 @@ public class Controller implements Initializable {
         if (running) {
             endTimer();
         }
+        if (!isPlaying){
+            isPlaying();
+        }
         play();
     }
 
@@ -169,6 +257,9 @@ public class Controller implements Initializable {
         }
         if (running) {
             endTimer();
+        }
+        if (!isPlaying){
+            isPlaying();
         }
         play();
     }
@@ -217,6 +308,10 @@ public class Controller implements Initializable {
         mediaPlayer.setRate(Integer.parseInt(speedBox.getValue()) * 0.01);
     }
 
+    public void expandCollapse(){
+
+    }
+
     public void beginTimer() {
 
         timer = new Timer();
@@ -242,6 +337,9 @@ public class Controller implements Initializable {
         timer.scheduleAtFixedRate(task, 0, 1000);
     }
 
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
     public void endTimer() {
         if (timer != null) {
             timer.cancel();
