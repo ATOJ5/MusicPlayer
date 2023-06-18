@@ -2,44 +2,48 @@
 
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
 <?import java.lang.String?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="166.0" prefWidth="642.0" styleClass="AnchorPane" stylesheets="@main.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="music.example.musicplayer.Controller">
+<AnchorPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="212.0" prefWidth="638.0" styleClass="AnchorPane" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="music.example.musicplayer.Controller">
    <children>
-      <Label fx:id="songLabel" alignment="CENTER" layoutX="22.0" layoutY="18.0" prefHeight="44.0" prefWidth="600.0" styleClass="songLabel" stylesheets="@main.css" text="Music Player.Mp3" textAlignment="CENTER" textFill="#bf2b2b">
+      <Label fx:id="songLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="204.0" layoutY="147.0" prefHeight="27.0" prefWidth="262.0" styleClass="songLabel" stylesheets="@main.css" text="Music Player" textAlignment="CENTER" textFill="#bf2b2b">
          <font>
             <Font name="Rubik-Bold" size="13.0" />
          </font></Label>
-      <ProgressBar fx:id="songProgress" layoutX="9.0" layoutY="68.0" prefHeight="20.0" prefWidth="624.0" progress="0.0">
+      <ProgressBar fx:id="songProgress" layoutX="47.0" layoutY="54.0" prefHeight="20.0" prefWidth="544.0" progress="0.0">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></ProgressBar>
-      <Button fx:id="playButton" alignment="CENTER" contentDisplay="CENTER" layoutX="265.0" layoutY="87.0" mnemonicParsing="false" onMouseClicked="#playPause" prefHeight="38.0" prefWidth="86.0" stylesheets="@main.css" textAlignment="CENTER">
+      <Button fx:id="playButton" alignment="CENTER" contentDisplay="CENTER" layoutX="315.0" layoutY="88.0" mnemonicParsing="false" onMouseClicked="#playPause" prefHeight="38.0" prefWidth="86.0" stylesheets="@main.css" textAlignment="RIGHT">
          <font>
             <Font name="Webdings" size="12.0" />
          </font>
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
+         <graphic>
+            <FontAwesomeIcon fx:id="icon" glyphName="PLAY" size="1.5em" textAlignment="RIGHT" translateX="3.0" />
+         </graphic>
          <styleClass>
-            <String fx:value="play" />
+            <String fx:value="controlButton" />
             <String fx:value="controlButton" />
          </styleClass>
-         <graphic>
-            <FontAwesomeIcon fx:id="icon" glyphName="PLAY" size="1.5em" textAlignment="CENTER" />
-         </graphic>
       </Button>
-      <Button fx:id="stopButton" alignment="CENTER" contentDisplay="CENTER" layoutX="315.0" layoutY="87.0" mnemonicParsing="false" onAction="#stop" prefHeight="38.0" prefWidth="86.0" styleClass="controlButton">
+      <Button fx:id="stopButton" alignment="CENTER" contentDisplay="CENTER" layoutX="415.0" layoutY="88.0" mnemonicParsing="false" onAction="#stop" prefHeight="38.0" prefWidth="86.0" styleClass="controlButton" stylesheets="@main.css">
          <font>
             <Font name="Webdings" size="19.0" />
          </font>
@@ -50,7 +54,7 @@
             <FontAwesomeIcon fill="WHITE" glyphName="STOP" size="1.5em" />
          </graphic>
       </Button>
-      <Button fx:id="resetButton" alignment="CENTER" layoutX="415.0" layoutY="87.0" mnemonicParsing="false" onAction="#reset" prefHeight="38.0" prefWidth="86.0" styleClass="controlButton">
+      <Button fx:id="resetButton" alignment="CENTER" layoutX="215.0" layoutY="88.0" mnemonicParsing="false" onAction="#reset" prefHeight="38.0" prefWidth="86.0" styleClass="controlButton" stylesheets="@main.css">
          <font>
             <Font name="Webdings" size="19.0" />
          </font>
@@ -61,7 +65,7 @@
             <FontAwesomeIcon fill="WHITE" glyphName="REPEAT" size="1.5em" textAlignment="CENTER" />
          </graphic>
       </Button>
-      <Button fx:id="previousButton" alignment="CENTER" layoutX="215.0" layoutY="87.0" mnemonicParsing="false" onAction="#previous" prefHeight="38.0" prefWidth="86.0" styleClass="controlButton">
+      <Button fx:id="previousButton" alignment="CENTER" contentDisplay="CENTER" layoutX="265.0" layoutY="88.0" mnemonicParsing="false" onAction="#previous" prefHeight="38.0" prefWidth="86.0" styleClass="controlButton" stylesheets="@main.css" textAlignment="CENTER">
          <font>
             <Font name="Webdings" size="19.0" />
          </font>
@@ -72,7 +76,7 @@
             <FontAwesomeIcon fill="WHITE" glyphName="CHEVRON_LEFT" size="1.5em" />
          </graphic>
       </Button>
-      <Button fx:id="nextButton" alignment="CENTER" contentDisplay="CENTER" layoutX="365.0" layoutY="87.0" mnemonicParsing="false" onAction="#next" prefHeight="38.0" prefWidth="86.0" styleClass="controlButton">
+      <Button fx:id="nextButton" alignment="CENTER" contentDisplay="CENTER" layoutX="365.0" layoutY="88.0" mnemonicParsing="false" onAction="#next" prefHeight="38.0" prefWidth="86.0" styleClass="controlButton" stylesheets="@main.css">
          <font>
             <Font name="Webdings" size="19.0" />
          </font>
@@ -83,24 +87,67 @@
             <FontAwesomeIcon fill="WHITE" glyphName="CHEVRON_RIGHT" size="1.5em" />
          </graphic>
       </Button>
-      <ComboBox fx:id="speedBox" layoutX="525.0" layoutY="88.0" onTouchReleased="#next" prefHeight="38.0" prefWidth="107.0" promptText="Speed" />
-      <Slider fx:id="volumeSlider" blockIncrement="5.0" layoutX="240.0" layoutY="126.0" prefHeight="44.0" prefWidth="140.0" value="50.0" />
-      <CheckBox fx:id="shuffle" layoutX="542.0" layoutY="140.0" mnemonicParsing="false" onAction="#enDisRepeat" text="Shuffle" textFill="#ff6f1c" />
-      <CheckBox fx:id="repeat" layoutX="465.0" layoutY="140.0" mnemonicParsing="false" onAction="#endDisShuffle" text="Repeat" textFill="#ff6f1c" />
-      <ToggleButton fx:id="expand" contentDisplay="CENTER" layoutX="12.0" layoutY="8.0" mnemonicParsing="false" onAction="#expandCollapse" onMouseClicked="#expandCollapse" styleClass="auxButton" textAlignment="CENTER">
+      <ComboBox fx:id="speedBox" layoutX="548.0" layoutY="89.0" onTouchReleased="#next" prefHeight="38.0" prefWidth="80.0" promptText="Speed" styleClass="grey" stylesheets="@main.css" />
+      <Slider fx:id="volumeSlider" blockIncrement="5.0" layoutX="489.0" layoutY="138.0" prefHeight="44.0" prefWidth="140.0" stylesheets="@main.css" value="50.0" />
+      <CheckBox fx:id="shuffle" layoutX="90.0" layoutY="161.0" mnemonicParsing="false" onAction="#enDisRepeat" text="Shuffle" textFill="#ff6f1c" />
+      <CheckBox fx:id="repeat" layoutX="13.0" layoutY="161.0" mnemonicParsing="false" onAction="#endDisShuffle" text="Repeat" textFill="#ff6f1c" />
+      <ToggleButton fx:id="expand" contentDisplay="CENTER" layoutX="608.0" layoutY="179.0" maxHeight="38.0" mnemonicParsing="false" onMouseClicked="#adjustWindowSize" prefWidth="20.0" styleClass="auxButton" stylesheets="@main.css" textAlignment="CENTER">
          <graphic>
-            <FontAwesomeIcon fill="WHITE" glyphName="CHEVRON_UP" />
+            <FontAwesomeIcon fx:id="iconDown" fill="#292c2c" glyphName="CHEVRON_DOWN" />
          </graphic></ToggleButton>
-      <Button fx:id="volumeButton" layoutX="380.0" layoutY="135.0" mnemonicParsing="false" onAction="#muteOnOff" onMouseClicked="#muteOnOff" pickOnBounds="false" styleClass="auxButton">
+      <Button fx:id="volumeButton" layoutX="465.0" layoutY="150.0" mnemonicParsing="false" onAction="#muteOnOff" onMouseClicked="#muteOnOff" pickOnBounds="false" styleClass="auxButton" stylesheets="@main.css">
          <graphic>
             <FontAwesomeIcon fx:id="iconVolume" fill="WHITE" glyphName="VOLUME_UP" size="1.2em" />
          </graphic></Button>
-      <Button contentDisplay="CENTER" layoutX="608.0" layoutY="29.0" mnemonicParsing="false" pickOnBounds="false" styleClass="auxButton" textFill="GREY">
+      <HBox fx:id="hbox" layoutX="-5.0" layoutY="-1.0" prefHeight="26.3" prefWidth="660.0" styleClass="grey" stylesheets="@main.css">
+         <children>
+            <MenuButton mnemonicParsing="false" styleClass="grey" stylesheets="@main.css" text="File" textAlignment="CENTER">
+              <items>
+                <MenuItem mnemonicParsing="false" text="Action 1" />
+                <MenuItem mnemonicParsing="false" text="Action 2" />
+              </items>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </MenuButton>
+            <MenuButton mnemonicParsing="false" styleClass="grey" stylesheets="@main.css" text="Config" textAlignment="CENTER">
+              <items>
+                <MenuItem mnemonicParsing="false" text="Action 1" />
+                <MenuItem mnemonicParsing="false" text="Action 2" />
+              </items>
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </MenuButton>
+            <Button mnemonicParsing="false" styleClass="grey" stylesheets="@main.css" text="_" translateX="460.0">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <Button alignment="CENTER_RIGHT" mnemonicParsing="false" styleClass="grey" stylesheets="@main.css" text="X" textAlignment="CENTER" translateX="460.0">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+         </children>
+         <padding>
+            <Insets left="15.0" right="15.0" />
+         </padding>
+      </HBox>
+      <Button fx:id="stopButton1" alignment="CENTER" contentDisplay="CENTER" layoutX="285.0" layoutY="296.0" mnemonicParsing="false" onAction="#stop" prefHeight="38.0" prefWidth="86.0" styleClass="controlButton" stylesheets="@main.css">
+         <font>
+            <Font name="Webdings" size="19.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
          <graphic>
-            <FontAwesomeIcon fill="WHITE" glyphName="CHEVRON_RIGHT" />
+            <FontAwesomeIcon fill="WHITE" glyphName="STOP" size="1.5em" />
          </graphic>
       </Button>
-      <Button layoutX="89.0" layoutY="107.0" mnemonicParsing="false" styleClass="auxButton" />
    </children>
    <effect>
       <DropShadow />

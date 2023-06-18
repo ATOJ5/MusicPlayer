@@ -1,24 +1,39 @@
 @font-face {
-    src: url("styles/Raleway.ttf");
+
+    src: url(../Raleway.ttf);
+}
+
+.grey {
+
+    -fx-background-color: #292c2c;
+}
+
+.slider .track {
+
+    -fx-background-color: #292c2c;
 }
 
 
-.controlButton {
+.controlButton{
 
     -fx-background-radius: 50%;
     -fx-min-width: 40px;
     -fx-min-height: 40px;
     -fx-max-width: 40px;
     -fx-max-height: 40px;
-    -fx-background-color: transparent;
     -fx-background-insets: 0;
-    -fx-padding: 0;
-
+    -fx-background-color: linear-gradient(to bottom,#bec1c1 29% , #6b717b  50%, #bec1c1  71%);
+    -fx-transition: 0.5s;
+    -fx-background-size: 200% auto;
+    -fx-color: white;
+    -fx-display: block;
 }
 
 .controlButton:hover {
-    -fx-border-color: inherit;
-    -fx-text-fill: inherit;
+
+    -fx-background-position: right center;
+    -fx-color: #fff;
+    -fx-text-decoration: none;
 }
 
 .auxButton {
@@ -42,13 +57,20 @@
 }
 
 .AnchorPane {
-    -fx-background-color: linear-gradient(to right, black, gray);
+
+    -fx-background-image: url("../back.png");
+    -fx-background-size: cover;
 }
 .songLabel{
     -fx-font-family:'Raleway', sans-serif;
-    -fx-text-fill: #FF4365;
-    -fx-font-size: 2.5em;
+    -fx-text-fill: #FFFFFF;
+    -fx-font-size: 1.5em;
     -fx-font-weight: bold;
+}
+.groupLabel{
+    -fx-font-family:'Raleway', sans-serif;
+    -fx-text-fill: #FFFFFF;
+    -fx-font-size: 1.5em;
 }
 
 Alert {
@@ -57,37 +79,4 @@ Alert {
     -fx-font-family: "Helvetica";
     -fx-font-style: italic;
     -fx-padding: 10;
-}
-
-/*
-Button  {
-     -fx-background-color: #008287;
-     -fx-border-color: #FFFFFF;
-     -fx-border-width: 1;
-     -fx-text-fill: #FFFFFF;
-     -fx-font-family: "Times New Roman";
-     -fx-font-style: italic;
-     -fx-font-size: 19px;
-     -fx-background-radius: 5 5 5 5;
-     -fx-border-radius: 5 5 5 5;
-}
-
-ComboBox:hover {
-    -fx-background-color: #333333;
-}
-
-ComboBox:active{
-        -fx-background-color: #008287;
-    	-fx-text-fill: #000000;
-    	-fx-font-weight: bold;
-}
-
-Button:hover {
-    -fx-background-color: #FFFFFF;
-}
-
-Button:pressed {
-    -fx-background-color: #FFFFFF;
-	-fx-text-fill: #000000;
-	-fx-font-weight: bold;
 }

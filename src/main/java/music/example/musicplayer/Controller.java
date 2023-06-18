@@ -1,6 +1,5 @@
 package music.example.musicplayer;
 
-import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -16,9 +15,10 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import javafx.scene.layout.HBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -40,9 +40,12 @@ public class Controller implements Initializable {
     @FXML
     private CheckBox shuffle,repeat;
     @FXML
-    private FontAwesomeIcon icon,iconVolume;
+    private FontAwesomeIcon icon,iconVolume,iconDown;
     @FXML
     private ToggleButton expand;
+    @FXML
+    private HBox hbox;
+
     private File directory;
     private File[] files;
     private ArrayList<File> songs;
@@ -57,10 +60,9 @@ public class Controller implements Initializable {
     private MediaPlayer mediaPlayer;
     private boolean isPlaying = false;
     private boolean isMuted = false;
-    private TranslateTransition expandTransition;
-    private TranslateTransition collapseTransition;
-
+    private boolean isExpanded = false;
     private Stage stage;
+
     @Override
     public void initialize(URL arg0, ResourceBundle arg1){
 
@@ -94,10 +96,7 @@ public class Controller implements Initializable {
 
         //Expansion/Collapse CFG
 
-        expandTransition = new TranslateTransition(Duration.seconds(0.3), mainPane);
-        expandTransition.setToY(200);
-        collapseTransition = new TranslateTransition(Duration.seconds(0.3), mainPane);
-        collapseTransition.setToY(-mainPane.getPrefHeight());
+
 
         //volume
         volumeSlider.valueProperty().addListener(new ChangeListener<Number>() {
@@ -308,10 +307,6 @@ public class Controller implements Initializable {
         mediaPlayer.setRate(Integer.parseInt(speedBox.getValue()) * 0.01);
     }
 
-    public void expandCollapse(){
-
-    }
-
     public void beginTimer() {
 
         timer = new Timer();
@@ -337,16 +332,39 @@ public class Controller implements Initializable {
         timer.scheduleAtFixedRate(task, 0, 1000);
     }
 
-    public void setStage(Stage stage) {
-        this.stage = stage;
-    }
     public void endTimer() {
         if (timer != null) {
             timer.cancel();
             timer = null;
         }
+    }
+    public void adjustWindowSize() {
+
+        if (!isExpanded){
+            expand();
+        } else {
+            collapse();
+        }
+    }
+    public void expand() {
+
+        isExpanded = true;
+        stage.setHeight(410);
+        iconDown.setGlyphName("CHEVRON_UP");
 
     }
+
+    public void collapse(){
+
+        isExpanded=false;
+        stage.setHeight(205);
+        iconDown.setGlyphName("CHEVRON_DOWN");
+    }
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
+
 
     public void openFile() {System.out.println("File opened!");}
     public void openFolder() {System.out.println("Folder opened!");}

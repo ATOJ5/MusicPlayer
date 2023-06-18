@@ -8,6 +8,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import jfxtras.styles.jmetro.JMetro;
 import jfxtras.styles.jmetro.Style;
 
@@ -18,18 +19,18 @@ public class MainAPP extends Application {
     public static Controller controller;
     public double height = 205;
     public double width = 650;
-
-
+    public Stage stage;
     @Override
     public void start(Stage stage)  {
 
         try{
 
+            stage.initStyle(StageStyle.UNDECORATED);
             FXMLLoader loader = new FXMLLoader(getClass().getResource("MainAP.fxml"));
             Parent root = loader.load();
 
             controller = loader.getController();
-
+            controller.setStage(stage);
 
             Scene scene = new Scene(root);
             JMetro jMetro = new JMetro();
@@ -46,6 +47,9 @@ public class MainAPP extends Application {
             stage.setY(250);
             jMetro.setScene(scene);
             jMetro.setStyle(Style.DARK);
+
+
+
 
             stage.setScene(scene);
             stage.show();
