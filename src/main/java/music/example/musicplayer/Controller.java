@@ -94,10 +94,6 @@ public class Controller implements Initializable {
         }
         speedBox.setOnAction(this::changeSpeed);
 
-        //Expansion/Collapse CFG
-
-
-
         //volume
         volumeSlider.valueProperty().addListener(new ChangeListener<Number>() {
             @Override
