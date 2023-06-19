@@ -30,9 +30,12 @@
 
 .controlButton:hover {
 
-    -fx-background-position: right center;
-    -fx-color: #fff;
-    -fx-text-decoration: none;
+    -fx-border-color: transparent;
+}
+
+.transparent:hover {
+    -fx-border-color: transparent;
+
 }
 
 .auxButton {
@@ -47,8 +50,7 @@
 }
 
 .auxButton:hover {
-    -fx-border-color: inherit;
-    -fx-text-fill: inherit;
+    -fx-border-color: transparent;
 }
 
 .play{
@@ -72,10 +74,23 @@
     -fx-font-size: 1.5em;
 }
 
-Alert {
-    -fx-background-color: #2A2A1E;
+.alert {
+
     -fx-text-fill: #FF4365;
-    -fx-font-family: "Helvetica";
+    -fx-font-family:'Raleway', sans-serif;
     -fx-font-style: italic;
     -fx-padding: 10;
+
+}
+
+.alert .dialog-pane {
+    -fx-background-color: #292c2c;
+}
+
+.alert .dialog-pane .header-panel {
+    -fx-background-color: #292c2c;
+}
+
+.alert .dialog-pane .content {
+    -fx-text-fill: #333333;
 }

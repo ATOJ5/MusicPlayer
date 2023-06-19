@@ -1,5 +1,14 @@
 # Changelog
 
+## MusicPlayer 0.1.5
+
+<li>Added the option to open a file and load an MP3 song.</li>
+<li>Added the option to open a directory and load a song's folder.</li>
+<li>Added the moveSong,addSongs,insertSongFromDirectory function to refactor the code.</li>
+<li>Removed the border hover effect on buttons. Now they appear transparent.</li>
+<li>Updated the padding of the HBox.</li>
+
+
 ## MusicPlayer 0.1.4
 
 <li>Added new Hbar with styles</li>

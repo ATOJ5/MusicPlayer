@@ -24,7 +24,7 @@
          <font>
             <Font name="Rubik-Bold" size="13.0" />
          </font></Label>
-      <ProgressBar fx:id="songProgress" layoutX="47.0" layoutY="54.0" prefHeight="20.0" prefWidth="544.0" progress="0.0">
+      <ProgressBar fx:id="songProgress" layoutX="47.0" layoutY="54.0" onMouseClicked="#moveSong" prefHeight="20.0" prefWidth="544.0" progress="0.0">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></ProgressBar>
@@ -36,7 +36,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
          <graphic>
-            <FontAwesomeIcon fx:id="icon" glyphName="PLAY" size="1.5em" textAlignment="RIGHT" translateX="3.0" />
+            <FontAwesomeIcon fx:id="icon" glyphName="PLAY" size="1.5em" textAlignment="RIGHT" translateX="2.0" />
          </graphic>
          <styleClass>
             <String fx:value="controlButton" />
@@ -95,16 +95,27 @@
          <graphic>
             <FontAwesomeIcon fx:id="iconDown" fill="#292c2c" glyphName="CHEVRON_DOWN" />
          </graphic></ToggleButton>
-      <Button fx:id="volumeButton" layoutX="465.0" layoutY="150.0" mnemonicParsing="false" onAction="#muteOnOff" onMouseClicked="#muteOnOff" pickOnBounds="false" styleClass="auxButton" stylesheets="@main.css">
+      <Button fx:id="volumeButton" layoutX="465.0" layoutY="150.0" mnemonicParsing="false" onMouseClicked="#muteOnOff" pickOnBounds="false" styleClass="auxButton" stylesheets="@main.css">
          <graphic>
-            <FontAwesomeIcon fx:id="iconVolume" fill="WHITE" glyphName="VOLUME_UP" size="1.2em" />
+            <FontAwesomeIcon fx:id="iconVolume" fill="WHITE" glyphName="VOLUME_UP" size="1.2em">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></FontAwesomeIcon>
          </graphic></Button>
       <HBox fx:id="hbox" layoutX="-5.0" layoutY="-1.0" prefHeight="26.3" prefWidth="660.0" styleClass="grey" stylesheets="@main.css">
          <children>
-            <MenuButton mnemonicParsing="false" styleClass="grey" stylesheets="@main.css" text="File" textAlignment="CENTER">
+            <MenuButton mnemonicParsing="false" stylesheets="@main.css" text="File" textAlignment="CENTER">
               <items>
-                <MenuItem mnemonicParsing="false" text="Action 1" />
-                <MenuItem mnemonicParsing="false" text="Action 2" />
+                <MenuItem id="openFile" fx:id="openFile" mnemonicParsing="false" onAction="#openFile" text="Open File">
+                     <styleClass>
+                        <String fx:value="grey" />
+                        <String fx:value="transparent" />
+                     </styleClass></MenuItem>
+                <MenuItem id="openDirectory" fx:id="openFolder" mnemonicParsing="false" onAction="#openFolder" text="Open Directory">
+                     <styleClass>
+                        <String fx:value="grey" />
+                        <String fx:value="transparent" />
+                     </styleClass></MenuItem>
               </items>
                <cursor>
                   <Cursor fx:constant="HAND" />
@@ -112,8 +123,12 @@
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
+               <styleClass>
+                  <String fx:value="grey" />
+                  <String fx:value="transparent" />
+               </styleClass>
             </MenuButton>
-            <MenuButton mnemonicParsing="false" styleClass="grey" stylesheets="@main.css" text="Config" textAlignment="CENTER">
+            <MenuButton mnemonicParsing="false" stylesheets="@main.css" text="Config" textAlignment="CENTER">
               <items>
                 <MenuItem mnemonicParsing="false" text="Action 1" />
                 <MenuItem mnemonicParsing="false" text="Action 2" />
@@ -121,20 +136,32 @@
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
+               <styleClass>
+                  <String fx:value="transparent" />
+                  <String fx:value="grey" />
+               </styleClass>
             </MenuButton>
-            <Button mnemonicParsing="false" styleClass="grey" stylesheets="@main.css" text="_" translateX="460.0">
+            <Button mnemonicParsing="false" stylesheets="@main.css" text="_" translateX="460.0">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
+               <styleClass>
+                  <String fx:value="grey" />
+                  <String fx:value="transparent" />
+               </styleClass>
             </Button>
-            <Button alignment="CENTER_RIGHT" mnemonicParsing="false" styleClass="grey" stylesheets="@main.css" text="X" textAlignment="CENTER" translateX="460.0">
+            <Button fx:id="logOut" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#logOut" onMouseClicked="#logOut" stylesheets="@main.css" text="X" textAlignment="CENTER" translateX="460.0">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
+               <styleClass>
+                  <String fx:value="grey" />
+                  <String fx:value="transparent" />
+               </styleClass>
             </Button>
          </children>
          <padding>
-            <Insets left="15.0" right="15.0" />
+            <Insets left="7.0" right="7.0" />
          </padding>
       </HBox>
       <Button fx:id="stopButton1" alignment="CENTER" contentDisplay="CENTER" layoutX="285.0" layoutY="296.0" mnemonicParsing="false" onAction="#stop" prefHeight="38.0" prefWidth="86.0" styleClass="controlButton" stylesheets="@main.css">

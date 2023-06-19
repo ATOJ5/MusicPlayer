@@ -48,16 +48,13 @@ public class MainAPP extends Application {
             jMetro.setScene(scene);
             jMetro.setStyle(Style.DARK);
 
-
-
-
+            stage.setResizable(false);
             stage.setScene(scene);
             stage.show();
 
             stage.setOnCloseRequest(event -> {
                 event.consume();
-                logOut(stage);
-
+                controller.logOut();
             });
 
 
@@ -65,23 +62,6 @@ public class MainAPP extends Application {
             e.printStackTrace();
         }
     }
-
-    public void logOut(Stage stage) {
-
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Log Out");
-        alert.setHeaderText("Are you sure you want to log out?");
-        alert.setContentText("Press OK to log out, or cancel to stay in the application.");
-
-        if (alert.showAndWait().get() == ButtonType.OK) {
-            System.out.println("Log Out");
-            controller.endTimer();
-            stage.close();
-        }
-    }
-
-
-
 
     public static void main(String[] args) {
         launch();

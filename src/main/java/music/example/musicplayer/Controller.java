@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import java.io.File;
 import java.net.URL;
@@ -19,6 +20,8 @@ import java.util.TimerTask;
 import javafx.scene.layout.HBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -45,10 +48,9 @@ public class Controller implements Initializable {
     private ToggleButton expand;
     @FXML
     private HBox hbox;
-
-    private File directory;
-    private File[] files;
-    private ArrayList<File> songs;
+    private File directory = new File("Music");
+    private File[] defaultDirectory = directory.listFiles();
+    private ArrayList<File> songList = new ArrayList<>();
     private int songNumber;
     private int[] speed = {25,50,75,100,125,150,175,200};
     private Timer timer;
@@ -62,32 +64,17 @@ public class Controller implements Initializable {
     private boolean isMuted = false;
     private boolean isExpanded = false;
     private Stage stage;
+    private File file;
+    private File selectedDirectory;
+
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1){
 
-        //Click to move progress song into a desired time.
-        songProgress.setOnMouseClicked(event -> {
-            double totalWidth = songProgress.getWidth();
-            double clickPosition = event.getX();
-            double percent = clickPosition / totalWidth;
-            double seekTime = mediaPlayer.getTotalDuration().toSeconds() * percent;
-            mediaPlayer.seek(Duration.seconds(seekTime));
-        });
-
-        // directory/files of songs
-        songs = new ArrayList<>();
-        directory = new File("Music");
-        files = directory.listFiles();
-
-        if(files !=null){
-            for(File file: files){
-                songs.add(file);
-                System.out.println(file);
-            }
+        addSongs();
+        if (defaultDirectory != null){
+            insertSong();
         }
-        insertSong();
-
         //Speed of the song
         for( int i = 0; i < speed.length; i++) {
             speedBox.getItems().add(Integer.toString(speed[i]));
@@ -110,13 +97,32 @@ public class Controller implements Initializable {
     /**
      * Insert new songs from a list into media then building player with this list
      */
+    private void addSongs() {
+        if(defaultDirectory !=null){
+            for(File file: defaultDirectory){
+                songList.add(file);
+            }
+        }
+    }
+
     private void insertSong() {
-        media = new Media(songs.get(songNumber).toURI().toString());
+        media = new Media(songList.get(songNumber).toURI().toString());
         mediaPlayer = new MediaPlayer(media);
         Platform.runLater(() -> {
-            songLabel.setText(songs.get(songNumber).getName());
+            songLabel.setText(songList.get(songNumber).getName());
         });
     }
+
+
+    public void moveSong(MouseEvent event) {
+
+        double totalWidth = songProgress.getWidth();
+        double clickPosition = event.getX();
+        double percent = clickPosition / totalWidth;
+        double seekTime = mediaPlayer.getTotalDuration().toSeconds() * percent;
+        mediaPlayer.seek(Duration.seconds(seekTime));
+    }
+
     public boolean shuffle() { return shuffle.isSelected();}
 
     public boolean repeat() {return repeat.isSelected();}
@@ -263,7 +269,7 @@ public class Controller implements Initializable {
      * Selecting a random song from the list of songs
      */
     private void shuffleAct() {
-        songNumber = (int) (Math.random() * songs.size());
+        songNumber = (int) (Math.random() * songList.size());
         mediaPlayer.stop();
         insertSong();
         endTimer();
@@ -272,7 +278,7 @@ public class Controller implements Initializable {
     private void sequentialBack(){
 
         if (songNumber == 0) {
-            songNumber = songs.size() - 1;
+            songNumber = songList.size() - 1;
         } else {
             songNumber--;
         }
@@ -280,7 +286,7 @@ public class Controller implements Initializable {
         insertSong();
     }
     private void sequentialNext() {
-        if (songNumber < songs.size() - 1) {
+        if (songNumber < songList.size() - 1) {
             songNumber++;
         } else {
             songNumber = 0;
@@ -362,6 +368,44 @@ public class Controller implements Initializable {
     }
 
 
-    public void openFile() {System.out.println("File opened!");}
-    public void openFolder() {System.out.println("Folder opened!");}
+    public void openFile() {
+
+        FileChooser fileChooser = new FileChooser();
+        file = fileChooser.showOpenDialog(stage);
+        if (file != null) {
+            stop();
+            songList.clear();
+            songList.add(file);
+            insertSong();
+        }
+    }
+
+    public void openFolder() {
+
+        DirectoryChooser directoryChooser = new DirectoryChooser();
+        selectedDirectory = directoryChooser.showDialog(stage);
+        if (selectedDirectory != null) {
+            stop();
+            songList.clear();
+            directory = selectedDirectory;
+            defaultDirectory = directory.listFiles();
+            addSongs();
+            insertSong();
+        }
+    }
+    public void logOut() {
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Log Out");
+        alert.setHeaderText("Are you sure you want to log out?");
+        alert.setContentText("Press OK to log out, or cancel to stay in the application.");
+        DialogPane dialogPane = alert.getDialogPane();
+        dialogPane.getStylesheets().add(getClass().getResource("main.css").toExternalForm());
+
+        if (alert.showAndWait().get() == ButtonType.OK) {
+            System.out.println("Log Out");
+            endTimer();
+            stage.close();
+        }
+    }
 }
