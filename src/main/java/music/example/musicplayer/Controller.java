@@ -5,6 +5,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import javafx.scene.control.*;
@@ -29,13 +30,13 @@ public class Controller implements Initializable {
     @FXML
     private Label songLabel;
     @FXML
-    private AnchorPane mainPane;
+    private AnchorPane mainPane, aboutPane;
     @FXML
     private ProgressBar songProgress;
     @FXML
     private Label songTime;
     @FXML
-    private Button playButton,volumeButton,stopButton,resetButton,previousButton,nextButton;
+    private Button playButton,volumeButton,stopButton,resetButton,previousButton,nextButton,minimizeButton;
     @FXML
     private ComboBox<String> speedBox;
     @FXML
@@ -66,11 +67,13 @@ public class Controller implements Initializable {
     private Stage stage;
     private File file;
     private File selectedDirectory;
-
+    private double xOffset;
+    private double yOffset;
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1){
 
+        aboutPane.setVisible(false);
         addSongs();
         if (defaultDirectory != null){
             insertSong();
@@ -81,17 +84,16 @@ public class Controller implements Initializable {
         }
         speedBox.setOnAction(this::changeSpeed);
 
-        //volume
-        volumeSlider.valueProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
-
-                mediaPlayer.setVolume(volumeSlider.getValue() * 0.01);
-            }
-        });
-
         //Style of progress bar
         songProgress.setStyle("-fx-accent: #00ff00");
+
+    }
+
+
+    @FXML
+    private void handleVolumeSliderMouseDragged(MouseEvent event) {
+        double volume = volumeSlider.getValue() * 0.01;
+        mediaPlayer.setVolume(volume);
     }
 
     /**
@@ -393,6 +395,29 @@ public class Controller implements Initializable {
             insertSong();
         }
     }
+
+    @FXML
+    private void onMousePressed(MouseEvent event) {
+        xOffset = event.getSceneX();
+        yOffset = event.getSceneY();
+    }
+
+    @FXML
+    private void onMouseDragged(MouseEvent event) {
+        stage.setX(event.getScreenX() - xOffset);
+        stage.setY(event.getScreenY() - yOffset);
+    }
+
+    @FXML
+    private void minimizeButtonClicked() {
+        minimizeWindow();
+    }
+
+    private void minimizeWindow() {
+        Stage stage = (Stage) minimizeButton.getScene().getWindow();
+        stage.setIconified(true);
+    }
+
     public void logOut() {
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -408,4 +433,15 @@ public class Controller implements Initializable {
             stage.close();
         }
     }
+
+    @FXML
+    public void showAboutWindow() {
+        aboutPane.setVisible(true);
+    }
+
+    @FXML
+    public void hideAboutWindow() {
+        aboutPane.setVisible(false);
+    }
+
 }

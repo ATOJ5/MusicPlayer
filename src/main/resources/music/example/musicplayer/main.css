@@ -57,7 +57,7 @@
     -fx-background-color: #FFFFFF;
 }
 
-.AnchorPane {
+.fondo {
 
     -fx-background-image: url("../back.png");
     -fx-background-size: cover;

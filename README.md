@@ -4,9 +4,9 @@ Music Player is an user-friendly application developed in Java using the JavaFX 
 ## Key Features
 Library Management: Easily organize and manage your music collection. Add songs, edit metadata, and create playlists to suit your preferences.
 
-User-Friendly Interface: The application boasts a clean and modern interface that is easy to navigate. Intuitive controls make it effortless to play, pause, skip tracks, adjust volume, and manage playlists.
+User-Friendly Interface: The application boasts a clean and modern interface that is easy to navigate. Intuitive controls make it effortless to play, pause, stop, restart, previous/next song, adjust volume, and manage playlists.
 
-Advanced Playback Controls: Enjoy a variety of playback options, including shuffle, repeat, and loop. Control playback speed and fine-tune the audio with an equalizer for a personalized listening experience.
+Advanced Playback Controls: Enjoy a variety of playback options, including shuffle, repeat and mute. Control playback speed and fine-tune the audio with an equalizer for a personalized listening experience.
 
 Search and Filter: Quickly find your favorite tracks with a powerful search feature. Filter songs by artist, album, genre, or any custom criteria to locate the music you desire.
 

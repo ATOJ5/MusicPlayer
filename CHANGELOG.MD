@@ -1,5 +1,14 @@
 # Changelog
 
+## MusicPlayer 0.1.6
+
+<li>Added handleVolumeSlider function to refactor the code</li>
+<li>Added Minimize and exit function/button</li>
+<li>Added Exit icon</li>
+<li>Added exit option on menu-bar</li>
+<li>Added Function to move onpressed/dragged the hbar</li>
+<li>Added about pane</li>
+
 ## MusicPlayer 0.1.5
 
 <li>Added the option to open a file and load an MP3 song.</li>
