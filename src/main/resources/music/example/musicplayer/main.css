@@ -8,6 +8,10 @@
     -fx-background-color: #292c2c;
 }
 
+.white {
+    -fx-background-color: #FFFFFF;
+}
+
 .slider .track {
 
     -fx-background-color: #292c2c;
@@ -31,6 +35,11 @@
 .controlButton:hover {
 
     -fx-border-color: transparent;
+}
+
+.transparent {
+    -fx-border-color: transparent;
+    -fx-background-color: transparent;
 }
 
 .transparent:hover {
@@ -68,10 +77,22 @@
     -fx-font-size: 1.5em;
     -fx-font-weight: bold;
 }
-.groupLabel{
+.boxLabel{
     -fx-font-family:'Raleway', sans-serif;
     -fx-text-fill: #FFFFFF;
-    -fx-font-size: 1.5em;
+    -fx-font-size: 1em;
+    -fx-padding: 0.5em;
+
+}
+
+.generalPanel{
+    -fx-font-family:'Raleway', sans-serif;
+    -fx-margin:1em;
+    -fx-padding:1em;
+    -fx-line-height: 1.4em;
+    -fx-box-shadow: 0.2em;
+    -fx-text-alignment: justify;
+
 }
 
 .alert {

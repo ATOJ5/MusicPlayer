@@ -20,10 +20,18 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="212.0" prefWidth="638.0" styleClass="fondo" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="music.example.musicplayer.Controller">
+<AnchorPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="230.0" prefWidth="638.0" styleClass="fondo" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="music.example.musicplayer.Controller">
    <children>
-      <ListView layoutX="255.0" layoutY="212.0" prefHeight="202.0" prefWidth="386.0" />
-      <Label fx:id="songLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="204.0" layoutY="147.0" prefHeight="27.0" prefWidth="262.0" styleClass="songLabel" stylesheets="@main.css" text="Music Player" textAlignment="CENTER" textFill="#bf2b2b">
+      <Button fx:id="likeButtom" contentDisplay="CENTER" layoutX="147.0" layoutY="84.0" mnemonicParsing="false" onMouseClicked="#like" prefHeight="38.0" prefWidth="40.0" styleClass="transparent" stylesheets="@main.css" textAlignment="CENTER">
+         <graphic>
+            <FontAwesomeIcon fill="WHITE" glyphName="HEART" scaleX="2.0" scaleY="2.0" scaleZ="2.0" selectionFill="#e13030" textAlignment="CENTER" wrappingWidth="21.5999755859375" />
+         </graphic>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <ListView layoutX="255.0" layoutY="230.0" prefHeight="202.0" prefWidth="386.0" />
+      <Label fx:id="songLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="145.0" layoutY="147.0" prefHeight="27.0" prefWidth="399.0" styleClass="songLabel" stylesheets="@main.css" text="Music Player" textAlignment="CENTER" textFill="#bf2b2b">
          <font>
             <Font name="Rubik-Bold" size="13.0" />
          </font></Label>
@@ -91,19 +99,20 @@
          </graphic>
       </Button>
       <ComboBox fx:id="speedBox" layoutX="548.0" layoutY="89.0" onAction="#changeSpeed" onTouchReleased="#next" prefHeight="38.0" prefWidth="80.0" promptText="Speed" styleClass="grey" stylesheets="@main.css" />
-      <Slider fx:id="volumeSlider" blockIncrement="5.0" layoutX="489.0" layoutY="138.0" onMouseDragged="#handleVolumeSliderMouseDragged" prefHeight="44.0" prefWidth="140.0" stylesheets="@main.css" value="50.0" />
-      <CheckBox fx:id="shuffle" layoutX="90.0" layoutY="161.0" mnemonicParsing="false" onAction="#enDisRepeat" text="Shuffle" textFill="#ff6f1c" />
-      <CheckBox fx:id="repeat" layoutX="13.0" layoutY="161.0" mnemonicParsing="false" onAction="#endDisShuffle" text="Repeat" textFill="#ff6f1c" />
-      <ToggleButton fx:id="expand" contentDisplay="CENTER" layoutX="608.0" layoutY="179.0" maxHeight="38.0" mnemonicParsing="false" onMouseClicked="#adjustWindowSize" prefWidth="20.0" styleClass="auxButton" stylesheets="@main.css" textAlignment="CENTER">
+      <Slider fx:id="volumeSlider" blockIncrement="5.0" layoutX="488.0" layoutY="167.0" onMouseDragged="#handleVolumeSliderMouseDragged" prefHeight="44.0" prefWidth="140.0" stylesheets="@main.css" value="50.0" />
+      <CheckBox fx:id="shuffle" layoutX="87.0" layoutY="190.0" mnemonicParsing="false" onAction="#enDisRepeat" text="Shuffle" textFill="#ff6f1c" />
+      <CheckBox fx:id="repeat" layoutX="14.0" layoutY="190.0" mnemonicParsing="false" onAction="#endDisShuffle" text="Repeat" textFill="#ff6f1c" />
+      <ToggleButton fx:id="expand" contentDisplay="CENTER" layoutX="604.0" layoutY="201.0" maxHeight="38.0" mnemonicParsing="false" onMouseClicked="#adjustWindowSize" prefWidth="20.0" styleClass="auxButton" stylesheets="@main.css" textAlignment="CENTER">
          <graphic>
             <FontAwesomeIcon fx:id="iconDown" fill="#292c2c" glyphName="CHEVRON_DOWN" />
          </graphic></ToggleButton>
-      <Button fx:id="volumeButton" layoutX="465.0" layoutY="150.0" mnemonicParsing="false" onMouseClicked="#muteOnOff" pickOnBounds="false" styleClass="auxButton" stylesheets="@main.css">
+      <Button fx:id="volumeButton" layoutX="468.0" layoutY="180.0" mnemonicParsing="false" onMouseClicked="#muteOnOff" pickOnBounds="false" styleClass="auxButton" stylesheets="@main.css">
          <graphic>
             <FontAwesomeIcon fx:id="iconVolume" fill="WHITE" glyphName="VOLUME_UP" size="1.2em">
                <cursor>
                   <Cursor fx:constant="HAND" />
-               </cursor></FontAwesomeIcon>
+               </cursor>
+            </FontAwesomeIcon>
          </graphic></Button>
       <HBox fx:id="hbox" layoutX="-5.0" layoutY="-1.0" onMouseDragged="#onMouseDragged" onMousePressed="#onMousePressed" prefHeight="26.3" prefWidth="660.0" styleClass="grey" stylesheets="@main.css">
          <children>
@@ -114,11 +123,17 @@
                         <String fx:value="grey" />
                         <String fx:value="transparent" />
                      </styleClass></MenuItem>
-                <MenuItem id="openDirectory" fx:id="openFolder" mnemonicParsing="false" onAction="#openFolder" text="Open Directory">
+                <MenuItem id="openDirectory" fx:id="openFolder" mnemonicParsing="false" onAction="#selectedDirectory" text="Open Directory">
                      <styleClass>
                         <String fx:value="grey" />
                         <String fx:value="transparent" />
                      </styleClass></MenuItem>
+                  <MenuItem id="favouriteTracks" mnemonicParsing="false" onAction="#selectedFavouriteSongs" text="Open Favourite Tracks">
+                     <styleClass>
+                        <String fx:value="grey" />
+                        <String fx:value="transparent" />
+                     </styleClass>
+                  </MenuItem>
                   <MenuItem id="exit" fx:id="exit" mnemonicParsing="false" onAction="#logOut" text="Exit">
                      <styleClass>
                         <String fx:value="grey" />
@@ -192,9 +207,43 @@
             <Insets left="7.0" right="7.0" />
          </padding>
       </HBox>
-      <AnchorPane fx:id="aboutPane" layoutX="161.0" layoutY="40.0" prefHeight="200.0" prefWidth="200.0" styleClass="fondo" stylesheets="@main.css">
+      <AnchorPane fx:id="aboutPane" layoutX="161.0" layoutY="20.0" prefHeight="280.0" prefWidth="374.0" styleClass="fondo" stylesheets="@main.css" visible="false">
          <children>
-            <VBox layoutX="-1.0" prefHeight="214.0" prefWidth="274.0" />
+            <VBox alignment="TOP_CENTER" onMouseDragged="#onMouseDragged" onMousePressed="#onMousePressed" prefHeight="323.0" prefWidth="374.0" styleClass="fondo" stylesheets="@main.css">
+               <children>
+                  <Label fx:id="boxLabel" alignment="TOP_LEFT" contentDisplay="CENTER" prefHeight="26.0" prefWidth="388.0" stylesheets="@main.css" text="About me" textAlignment="CENTER" textFill="WHITE">
+                     <styleClass>
+                        <String fx:value="grey" />
+                        <String fx:value="boxLabel" />
+                     </styleClass>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </Label>
+                  <Label fx:id="titleAbout" contentDisplay="CENTER" text="MusicPlayer 0.1.7" textAlignment="CENTER">
+                     <VBox.margin>
+                        <Insets top="5.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font></Label>
+                  <Label fx:id="aboutText" contentDisplay="CENTER" prefHeight="120.0" prefWidth="374.0" styleClass="generalPanel" stylesheets="@main.css" text="This application allows you to play and manage your music library in a simple and customized way. With an intuitive and appealing interface, Music Player offers features such as song search, playlist creation, loop playback, and much more." textAlignment="CENTER" wrapText="true" />
+                  <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Label styleClass="generalPanel" stylesheets="@main.css" text="https://github.com/ATOJ5" textAlignment="CENTER" />
+                        <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#hideAboutWindow" stylesheets="@main.css" text="Close" textAlignment="CENTER" textFill="WHITE">
+                           <styleClass>
+                              <String fx:value="grey" />
+                              <String fx:value="transparent" />
+                           </styleClass>
+                           <HBox.margin>
+                              <Insets left="75.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
          </children>
       </AnchorPane>
    </children>

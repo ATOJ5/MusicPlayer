@@ -17,7 +17,7 @@ import java.io.IOException;
 public class MainAPP extends Application {
 
     public static Controller controller;
-    public double height = 205;
+    public double height = 225;
     public double width = 650;
     public Stage stage;
     @Override

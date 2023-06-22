@@ -1,5 +1,13 @@
 # Changelog
 
+## MusicPlayer 0.1.7
+
+<li>Added Like function. Now you can save your favourite tracks in a new list</li>
+<li>Added load liked songs function to charge your favourite tracks</li>
+<li>Added selected Directory Function to refactorize openFolder function</li>
+<li>Update about and now works perfectly</li>
+<li>Update height to the main pane and buttons sorted</li>
+
 ## MusicPlayer 0.1.6
 
 <li>Added handleVolumeSlider function to refactor the code</li>
@@ -21,23 +29,23 @@
 ## MusicPlayer 0.1.4
 
 <li>Added new Hbar with styles</li>
-<li>Added new buttom to expand/collapse main Pane</li>
+<li>Added new button to expand/collapse main Pane</li>
 <li>Updated background pane background style</li>
 <li>Updated bottom styles</li>
 <li>Updated Button display</li>
-<li>Removed default hbar</li>
-<li>Fixed collapse bug function which didnt work correctly</li>
+<li>Removed default Hbar</li>
+<li>Fixed bug which collapse wasn't working properly</li>
 
 ## MusicPlayer 0.1.3
 
 <li>Added a new mute option</li>
 <li>Added new expand option</li>
 <li>Added fixed Height/Width</li>
-<li>Added some checks to update pause/play gliyph after next/stop/others buttoms</li>
+<li>Added some checks to update pause/play glyph after next/stop/others buttons</li>
 <li>Updated button style: Most of the buttons are now invisible</li>
-<li>Updated other buttoms fuctions to avoid bugs on new mute option</li>
+<li>Updated other buttons fuctions to avoid bugs on new mute option</li>
 <li>Removed the Pause button. The Play button now functions as both play and pause.</li>
-<li>Fixed a bug where buttons didn't work when clicking on the buttom's corner.</li>
+<li>Fixed a bug where buttons didn't work when clicking on the button's corner.</li>
 
 ## MusicPlayer 0.1.2
 

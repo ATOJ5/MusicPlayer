@@ -1,11 +1,8 @@
 package music.example.musicplayer;
 
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import javafx.scene.control.*;
@@ -13,12 +10,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import java.io.File;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.ResourceBundle;
-import java.util.Timer;
-import java.util.TimerTask;
-
-import javafx.scene.layout.HBox;
+import java.util.*;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.DirectoryChooser;
@@ -30,13 +22,13 @@ public class Controller implements Initializable {
     @FXML
     private Label songLabel;
     @FXML
-    private AnchorPane mainPane, aboutPane;
+    private AnchorPane aboutPane;
     @FXML
     private ProgressBar songProgress;
     @FXML
     private Label songTime;
     @FXML
-    private Button playButton,volumeButton,stopButton,resetButton,previousButton,nextButton,minimizeButton;
+    private Button playButton,volumeButton,minimizeButton;
     @FXML
     private ComboBox<String> speedBox;
     @FXML
@@ -45,13 +37,10 @@ public class Controller implements Initializable {
     private CheckBox shuffle,repeat;
     @FXML
     private FontAwesomeIcon icon,iconVolume,iconDown;
-    @FXML
-    private ToggleButton expand;
-    @FXML
-    private HBox hbox;
     private File directory = new File("Music");
     private File[] defaultDirectory = directory.listFiles();
     private ArrayList<File> songList = new ArrayList<>();
+    private ArrayList<File> favouriteSongList = new ArrayList<>();
     private int songNumber;
     private int[] speed = {25,50,75,100,125,150,175,200};
     private Timer timer;
@@ -73,7 +62,6 @@ public class Controller implements Initializable {
     @Override
     public void initialize(URL arg0, ResourceBundle arg1){
 
-        aboutPane.setVisible(false);
         addSongs();
         if (defaultDirectory != null){
             insertSong();
@@ -382,10 +370,28 @@ public class Controller implements Initializable {
         }
     }
 
-    public void openFolder() {
+    public void selectedDirectory() {
 
         DirectoryChooser directoryChooser = new DirectoryChooser();
         selectedDirectory = directoryChooser.showDialog(stage);
+        openFolder(selectedDirectory);
+    }
+
+    public void selectedFavouriteSongs(){
+
+        if(favouriteSongList != null){
+            stop();
+            songList.clear();
+            songList.addAll(favouriteSongList);
+            insertSong();
+
+        } else {
+            System.out.println("There aren't any favourite songs ");
+        }
+    }
+
+    public void openFolder(File selectedDirectory) {
+
         if (selectedDirectory != null) {
             stop();
             songList.clear();
@@ -436,6 +442,7 @@ public class Controller implements Initializable {
 
     @FXML
     public void showAboutWindow() {
+
         aboutPane.setVisible(true);
     }
 
@@ -444,4 +451,39 @@ public class Controller implements Initializable {
         aboutPane.setVisible(false);
     }
 
+    public void like() {
+        File songFile = obtenerCancionActual();
+
+        boolean found = false;
+        Iterator<File> iterator = favouriteSongList.iterator();
+
+        while (iterator.hasNext()) {
+            File file = iterator.next();
+            if (file.getName().equals(obtenerCancionActual().getName())) {
+                iterator.remove();
+                found = true;
+                break;
+            }
+        }
+
+        if (!found) {
+            favouriteSongList.add(songFile);
+        }
+    }
+    private File obtenerCancionActual() {
+        if (songNumber >= 0 && songNumber < songList.size()) {
+            return songList.get(songNumber);
+        }
+        return null;
+    }
+
+    private void mostrarInformacionCancionActual() {
+        File cancionActual = obtenerCancionActual();
+        if (cancionActual != null) {
+            System.out.println("Canción actual: " + cancionActual.getName());
+            // Aquí puedes realizar cualquier acción adicional con la canción actual
+        } else {
+            System.out.println("No hay una canción cargada actualmente");
+        }
+    }
 }
