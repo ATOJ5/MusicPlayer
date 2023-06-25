@@ -17,6 +17,50 @@
     -fx-background-color: #292c2c;
 }
 
+.lightgrey {
+    -fx-background-color: linear-gradient(to bottom,#bec1c1 29% , #6b717b  50%, #bec1c1  71%);
+}
+
+.trackPane {
+
+    -fx-border-width: 0.1275em;
+    -fx-border-radius: 0.2em;
+    -fx-padding: 0.425em;
+}
+
+.trackLabel {
+    -fx-font-family: 'Bitter', serif;
+    -fx-font-size: 1em;
+    -fx-font-weight: 700;
+    -fx-letter-spacing: 0.025em;
+    -fx-text-transform: uppercase;
+    -fx-text-fill: #FFFFFF;
+    -fx-background-color: rgba(235, 132, 117, 0.5);
+    -fx-padding: 0.25em 0.625em;
+    -fx-border-style: solid;
+    -fx-border-width: 0.1875em;
+    -fx-border-color: #292c2c;
+}
+
+.trackListView {
+    -fx-background-color: linear-gradient(to right, rgba(123, 87, 122, 0.5), rgba(235, 163, 149, 0.5));
+    -fx-font-family: 'Bitter', serif;
+    -fx-font-size: 1em;
+    -fx-font-weight: 400;
+    -fx-letter-spacing: 0.025em;
+    -fx-text-transform: none;
+    -fx-text-fill: #292c2c;
+    -fx-border-radius: 0.5em;
+    -fx-padding: 0.625em;
+    -fx-border-style: solid;
+    -fx-border-width: 0.1875em;
+    -fx-border-color: #292c2c;
+}
+
+.trackListView .list-cell:selected {
+    -fx-background-color: #292c2c;
+}
+
 .controlButton{
 
     -fx-background-radius: 50%;
@@ -45,6 +89,10 @@
 .transparent:hover {
     -fx-border-color: transparent;
 
+}
+
+.border-transparent {
+    -fx-border-color: transparent;
 }
 
 .auxButton {

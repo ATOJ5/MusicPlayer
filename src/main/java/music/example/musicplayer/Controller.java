@@ -1,6 +1,8 @@
 package music.example.musicplayer;
 
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -13,6 +15,7 @@ import java.net.URL;
 import java.util.*;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.paint.Color;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -20,7 +23,7 @@ import javafx.util.Duration;
 
 public class Controller implements Initializable {
     @FXML
-    private Label songLabel;
+    private Label songLabel,trackLabel;
     @FXML
     private AnchorPane aboutPane;
     @FXML
@@ -58,6 +61,11 @@ public class Controller implements Initializable {
     private File selectedDirectory;
     private double xOffset;
     private double yOffset;
+    @FXML
+    private ListView<File> songListView;
+    @FXML
+    public FontAwesomeIcon heart;
+    private ObservableList<File> items;
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1){
@@ -66,6 +74,15 @@ public class Controller implements Initializable {
         if (defaultDirectory != null){
             insertSong();
         }
+
+        ArrayList<File> listaCanciones = songList;
+        items = FXCollections.observableArrayList(listaCanciones);
+        songListView.setItems(items);
+        songListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+          selectSong(newValue);
+        });
+        items.setAll(listaCanciones);
+
         //Speed of the song
         for( int i = 0; i < speed.length; i++) {
             speedBox.getItems().add(Integer.toString(speed[i]));
@@ -74,10 +91,7 @@ public class Controller implements Initializable {
 
         //Style of progress bar
         songProgress.setStyle("-fx-accent: #00ff00");
-
     }
-
-
     @FXML
     private void handleVolumeSliderMouseDragged(MouseEvent event) {
         double volume = volumeSlider.getValue() * 0.01;
@@ -100,6 +114,13 @@ public class Controller implements Initializable {
         mediaPlayer = new MediaPlayer(media);
         Platform.runLater(() -> {
             songLabel.setText(songList.get(songNumber).getName());
+        });
+    }
+
+    private void favourityTrackDirectory() {
+        items.setAll(songList);
+        Platform.runLater(() -> {
+            trackLabel.setText("FAVOURITE TRACKS");
         });
     }
 
@@ -133,9 +154,7 @@ public class Controller implements Initializable {
         else
             shuffle.setDisable(true);
     }
-    /**
-     * Play the current track. Begin timer and use the current speed. Also, get volume from slider then play the track
-     */
+
     public void play() {
 
         if (timer != null) {
@@ -255,15 +274,11 @@ public class Controller implements Initializable {
         play();
     }
 
-    /**
-     * Selecting a random song from the list of songs
-     */
     private void shuffleAct() {
         songNumber = (int) (Math.random() * songList.size());
         mediaPlayer.stop();
         insertSong();
         endTimer();
-
     }
     private void sequentialBack(){
 
@@ -284,6 +299,22 @@ public class Controller implements Initializable {
         mediaPlayer.stop();
         insertSong();
         endTimer();
+    }
+
+    private void selectSong(File song) {
+
+        if (song != null){
+            System.out.println("Canción seleccionada: " + song.getName());
+            for ( int i = 0; i < songList.size(); i++ ) {
+                if (songList.get(i).getName().equals(song.getName())){
+                    songNumber = i;
+                    mediaPlayer.stop();
+                    endTimer();
+                    insertSong();
+                    play();
+                }
+            }
+        }
     }
 
     private void repeatAct() {
@@ -339,17 +370,15 @@ public class Controller implements Initializable {
         }
     }
     public void expand() {
-
         isExpanded = true;
-        stage.setHeight(410);
+        stage.setHeight(500);
         iconDown.setGlyphName("CHEVRON_UP");
-
     }
 
     public void collapse(){
 
         isExpanded=false;
-        stage.setHeight(205);
+        stage.setHeight(225);
         iconDown.setGlyphName("CHEVRON_DOWN");
     }
 
@@ -375,14 +404,17 @@ public class Controller implements Initializable {
         DirectoryChooser directoryChooser = new DirectoryChooser();
         selectedDirectory = directoryChooser.showDialog(stage);
         openFolder(selectedDirectory);
+
+
     }
 
     public void selectedFavouriteSongs(){
 
-        if(favouriteSongList != null){
+        if(favouriteSongList.size() > 0){
             stop();
             songList.clear();
             songList.addAll(favouriteSongList);
+            favourityTrackDirectory();
             insertSong();
 
         } else {
@@ -399,6 +431,7 @@ public class Controller implements Initializable {
             defaultDirectory = directory.listFiles();
             addSongs();
             insertSong();
+            items.setAll(songList);
         }
     }
 
@@ -452,9 +485,24 @@ public class Controller implements Initializable {
     }
 
     public void like() {
-        File songFile = obtenerCancionActual();
 
+        File songFile = obtenerCancionActual();
         boolean found = false;
+
+        found = likeIsFound(found);
+        likeIsNotFound(songFile, found);
+        items.setAll(favouriteSongList);
+    }
+
+    private void likeIsNotFound(File songFile, boolean found) {
+        if (!found) {
+            favouriteSongList.add(songFile);
+            heart.setFill(Color.RED);
+        }
+    }
+
+    private boolean likeIsFound(boolean found) {
+
         Iterator<File> iterator = favouriteSongList.iterator();
 
         while (iterator.hasNext()) {
@@ -462,14 +510,15 @@ public class Controller implements Initializable {
             if (file.getName().equals(obtenerCancionActual().getName())) {
                 iterator.remove();
                 found = true;
+                heart.setFill(Color.WHITE);
                 break;
             }
         }
-
-        if (!found) {
-            favouriteSongList.add(songFile);
-        }
+        return found;
     }
+
+    public void checkColor(ArrayList colorList) {}
+
     private File obtenerCancionActual() {
         if (songNumber >= 0 && songNumber < songList.size()) {
             return songList.get(songNumber);
@@ -481,7 +530,7 @@ public class Controller implements Initializable {
         File cancionActual = obtenerCancionActual();
         if (cancionActual != null) {
             System.out.println("Canción actual: " + cancionActual.getName());
-            // Aquí puedes realizar cualquier acción adicional con la canción actual
+
         } else {
             System.out.println("No hay una canción cargada actualmente");
         }

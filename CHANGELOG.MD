@@ -1,5 +1,13 @@
 # Changelog
 
+## MusicPlayer 0.1.8
+
+<li>Fixed a bug in `selectedFavouriteSongs`</li>
+<li>Added functions and panels to navigate through the Track list</li>
+<li>Added styles to the tracklist pane</li>
+<li>Implemented a function to move to a selected track from the ListView</li>
+<li>Added new functions to update the ListPane when a new directory is loaded</li>
+
 ## MusicPlayer 0.1.7
 
 <li>Added Like function. Now you can save your favourite tracks in a new list</li>
@@ -7,6 +15,7 @@
 <li>Added selected Directory Function to refactorize openFolder function</li>
 <li>Update about and now works perfectly</li>
 <li>Update height to the main pane and buttons sorted</li>
+<li>Update Like functions. Now, favourite track list remove/add songs in the pane</li>
 
 ## MusicPlayer 0.1.6
 
