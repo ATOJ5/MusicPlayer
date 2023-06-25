@@ -1,11 +1,19 @@
 # Changelog
 
+## MusicPlayer 0.1.9
+
+<li>Added new function to remove directory and .mp3 text from track list</li>
+<li>Added a new button to open a Youtube browser using label title.</li>
+<li>Added a new button to open Spotify browser using label title</li>
+<li>Fixed a bug which sometimes favourite songs didn't have hearth in red</li>
+<li>Updated label and removing .mp3 text from song titles</li>
+
 ## MusicPlayer 0.1.8
 
 <li>Fixed a bug in `selectedFavouriteSongs`</li>
 <li>Added functions and panels to navigate through the Track list</li>
 <li>Added styles to the tracklist pane</li>
-<li>Implemented a function to move to a selected track from the ListView</li>
+<li>Added a function to move to a selected track from the ListView</li>
 <li>Added new functions to update the ListPane when a new directory is loaded</li>
 
 ## MusicPlayer 0.1.7

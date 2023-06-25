@@ -1,5 +1,6 @@
 package music.example.musicplayer;
 
+import javafx.application.HostServices;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -20,6 +21,7 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+
 
 public class Controller implements Initializable {
     @FXML
@@ -66,22 +68,38 @@ public class Controller implements Initializable {
     @FXML
     public FontAwesomeIcon heart;
     private ObservableList<File> items;
+    private boolean favouriteIsOn=false;
+    private HostServices hostServices;
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1){
 
         addSongs();
-        if (defaultDirectory != null){
+        if (defaultDirectory != null) {
             insertSong();
         }
 
+        //Listing our files to Track List
         ArrayList<File> listaCanciones = songList;
         items = FXCollections.observableArrayList(listaCanciones);
         songListView.setItems(items);
         songListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-          selectSong(newValue);
+            selectSong(newValue);
         });
-        items.setAll(listaCanciones);
+
+        //removing .mp3 text and directories for sharing only track titles.
+        songListView.setCellFactory(param -> new ListCell<File>() {
+            @Override
+            protected void updateItem(File item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                } else {
+                    setText(item.getName().replace(".mp3", ""));
+                }
+            }
+        });
+
 
         //Speed of the song
         for( int i = 0; i < speed.length; i++) {
@@ -113,7 +131,7 @@ public class Controller implements Initializable {
         media = new Media(songList.get(songNumber).toURI().toString());
         mediaPlayer = new MediaPlayer(media);
         Platform.runLater(() -> {
-            songLabel.setText(songList.get(songNumber).getName());
+            songLabel.setText(songList.get(songNumber).getName().replace(".mp3",""));
         });
     }
 
@@ -167,7 +185,9 @@ public class Controller implements Initializable {
         } else {
             mediaPlayer.setVolume(0);
         }
+        checkColor();
         mediaPlayer.play();
+
     }
 
     public void muteOnOff(){
@@ -404,8 +424,6 @@ public class Controller implements Initializable {
         DirectoryChooser directoryChooser = new DirectoryChooser();
         selectedDirectory = directoryChooser.showDialog(stage);
         openFolder(selectedDirectory);
-
-
     }
 
     public void selectedFavouriteSongs(){
@@ -413,9 +431,11 @@ public class Controller implements Initializable {
         if(favouriteSongList.size() > 0){
             stop();
             songList.clear();
+            favouriteIsOn = true;
             songList.addAll(favouriteSongList);
             favourityTrackDirectory();
             insertSong();
+
 
         } else {
             System.out.println("There aren't any favourite songs ");
@@ -429,9 +449,11 @@ public class Controller implements Initializable {
             songList.clear();
             directory = selectedDirectory;
             defaultDirectory = directory.listFiles();
+            favouriteIsOn = false;
             addSongs();
             insertSong();
             items.setAll(songList);
+
         }
     }
 
@@ -484,24 +506,27 @@ public class Controller implements Initializable {
         aboutPane.setVisible(false);
     }
 
-    public void like() {
+    public void clickHearth() {
 
         File songFile = obtenerCancionActual();
         boolean found = false;
+        found = dislike(found);
+        like(songFile, found);
 
-        found = likeIsFound(found);
-        likeIsNotFound(songFile, found);
-        items.setAll(favouriteSongList);
+
     }
 
-    private void likeIsNotFound(File songFile, boolean found) {
+    private void like(File songFile, boolean found) {
         if (!found) {
             favouriteSongList.add(songFile);
             heart.setFill(Color.RED);
+            if (favouriteIsOn){
+                items.setAll(favouriteSongList);
+            }
         }
     }
 
-    private boolean likeIsFound(boolean found) {
+    private boolean dislike(boolean found) {
 
         Iterator<File> iterator = favouriteSongList.iterator();
 
@@ -511,28 +536,53 @@ public class Controller implements Initializable {
                 iterator.remove();
                 found = true;
                 heart.setFill(Color.WHITE);
+                if (favouriteIsOn){
+                    items.setAll(favouriteSongList);
+                }
                 break;
             }
         }
         return found;
     }
 
-    public void checkColor(ArrayList colorList) {}
-
+    public void checkColor() {
+        for (File favourite : favouriteSongList) {
+            if (favourite.getName().equals(obtenerCancionActual().getName())) {
+                heart.setFill(Color.RED);
+                return;
+            }
+        }
+        heart.setFill(Color.WHITE);
+    }
     private File obtenerCancionActual() {
-        if (songNumber >= 0 && songNumber < songList.size()) {
+        if (songNumber < songList.size()) {
             return songList.get(songNumber);
         }
         return null;
     }
 
-    private void mostrarInformacionCancionActual() {
-        File cancionActual = obtenerCancionActual();
-        if (cancionActual != null) {
-            System.out.println("Canción actual: " + cancionActual.getName());
+    public void setHostServices(HostServices hostServices) {
+        this.hostServices = hostServices;
+    }
 
-        } else {
-            System.out.println("No hay una canción cargada actualmente");
+    public void openYoutubeLink () {
+
+        String videoTitle = obtenerCancionActual().getName().replace(".mp3","");
+        String youtubeLink = "https://www.youtube.com/results?search_query=" + videoTitle.replace(" ", "+");
+
+        if (hostServices != null) {
+            hostServices.showDocument(youtubeLink);
         }
     }
+    public void openSpotifyLink() {
+
+        String videoTitle = obtenerCancionActual().getName().replace(".mp3","");
+        String spotifyLink = "https://open.spotify.com/search/" + videoTitle.replace(" ", "%20");
+
+        if (hostServices != null) {
+            hostServices.showDocument(spotifyLink);
+        }
+    }
+
 }
+

@@ -29,7 +29,7 @@
             <ListView fx:id="songListView" layoutX="1.0" layoutY="45.0" prefHeight="202.0" prefWidth="552.0" styleClass="trackListView" stylesheets="@main.css" />
          </children>
       </Pane>
-      <Button fx:id="likeButtom" contentDisplay="CENTER" layoutX="315.0" layoutY="182.0" mnemonicParsing="false" onMouseClicked="#like" prefHeight="38.0" prefWidth="40.0" styleClass="transparent" stylesheets="@main.css" textAlignment="CENTER">
+      <Button fx:id="likeButtom" contentDisplay="CENTER" layoutX="315.0" layoutY="182.0" mnemonicParsing="false" onMouseClicked="#clickHearth" prefHeight="38.0" prefWidth="40.0" styleClass="transparent" stylesheets="@main.css" textAlignment="CENTER">
          <graphic>
             <FontAwesomeIcon fx:id="heart" fill="WHITE" glyphName="HEART" scaleX="2.0" scaleY="2.0" scaleZ="2.0" selectionFill="#e13030" textAlignment="CENTER" wrappingWidth="21.5999755859375" />
          </graphic>
@@ -226,7 +226,7 @@
                         <Insets />
                      </VBox.margin>
                   </Label>
-                  <Label fx:id="titleAbout" contentDisplay="CENTER" text="MusicPlayer 0.1.7" textAlignment="CENTER">
+                  <Label fx:id="titleAbout" contentDisplay="CENTER" text="MusicPlayer 0.1.9" textAlignment="CENTER">
                      <VBox.margin>
                         <Insets top="5.0" />
                      </VBox.margin>
@@ -255,6 +255,22 @@
             </VBox>
          </children>
       </AnchorPane>
+      <Button fx:id="youtubeButton" layoutX="277.0" layoutY="188.0" mnemonicParsing="false" onMouseClicked="#openYoutubeLink" styleClass="transparent" stylesheets="@main.css" textAlignment="CENTER" textFill="WHITE">
+         <graphic>
+            <FontAwesomeIcon fill="WHITE" glyphName="YOUTUBE" scaleX="2.0" scaleY="2.0" scaleZ="21.0" textAlignment="CENTER" />
+         </graphic>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <Button fx:id="spotify" layoutX="365.0" layoutY="188.0" mnemonicParsing="false" onMouseClicked="#openSpotifyLink" styleClass="transparent" stylesheets="@main.css" textAlignment="CENTER" textFill="WHITE">
+         <graphic>
+            <FontAwesomeIcon fill="WHITE" glyphName="SPOTIFY" scaleX="2.0" scaleY="2.0" scaleZ="21.0" textAlignment="CENTER" />
+         </graphic>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
    </children>
    <effect>
       <DropShadow />

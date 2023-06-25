@@ -31,6 +31,7 @@ public class MainAPP extends Application {
 
             controller = loader.getController();
             controller.setStage(stage);
+            controller.setHostServices(getHostServices());
 
             Scene scene = new Scene(root);
             JMetro jMetro = new JMetro();
