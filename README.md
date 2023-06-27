@@ -1,7 +1,8 @@
 # MusicPlayer
 Music Player is an user-friendly application developed in Java using the JavaFX framework and Metro Libray. This project aims to provide a comprehensive music player solution with an intuitive and visually appealing interface. Whether you're a casual listener or a music enthusiast, this player offers a simple and enjoyable music playback experience.
 
-![image](https://github.com/ATOJ5/MusicPlayer/assets/108841509/cbb5912a-722c-41d6-9765-8fdeca1ce5d5)
+![image](https://github.com/ATOJ5/MusicPlayer/assets/108841509/3663815c-2a19-499f-844c-10fcaf30a5dd)
+
 
 
 ## Key Features
