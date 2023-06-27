@@ -1,5 +1,12 @@
 # Changelog
 
+## MusicPlayer 0.2
+
+<li>Added current time & total time of each song</li>
+<li>Added underline when you click a song in list pane</li>
+<li>Updated styles for selected songs in track list</li>
+<li>Updated speed botton size</li>
+
 ## MusicPlayer 0.1.9
 
 <li>Added new function to remove directory and .mp3 text from track list</li>

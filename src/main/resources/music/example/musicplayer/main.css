@@ -17,6 +17,10 @@
     -fx-background-color: #292c2c;
 }
 
+.underline-selected {
+    -fx-underline: true;
+}
+
 .lightgrey {
     -fx-background-color: linear-gradient(to bottom,#bec1c1 29% , #6b717b  50%, #bec1c1  71%);
 }
@@ -46,7 +50,7 @@
 .trackListView {
     -fx-background-color: linear-gradient(to right, rgba(123, 87, 122, 0.5), rgba(235, 163, 149, 0.5));
     -fx-font-family: 'Bitter', serif;
-    -fx-font-size: 1em;
+    -fx-font-size: 1.2em;
     -fx-font-weight: 400;
     -fx-letter-spacing: 0.025em;
     -fx-text-transform: none;
@@ -58,9 +62,20 @@
     -fx-border-color: #292c2c;
 }
 
-.trackListView .list-cell:selected {
+
+#songListView .list-cell:hover {
+
+    -fx-background-insets: 0 30px 0 0;
+    -fx-background-radius: 10px;
     -fx-background-color: #292c2c;
 }
+
+#songListView .list-cell:selected {
+
+    -fx-background-insets: 0 30px 0 0;
+    -fx-background-radius: 10px;
+}
+
 
 .controlButton{
 

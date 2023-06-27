@@ -2,6 +2,8 @@ package music.example.musicplayer;
 
 import javafx.application.HostServices;
 import javafx.application.Platform;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -31,7 +33,7 @@ public class Controller implements Initializable {
     @FXML
     private ProgressBar songProgress;
     @FXML
-    private Label songTime;
+    private Label currentTimeLabel,totalTimeLabel;
     @FXML
     private Button playButton,volumeButton,minimizeButton;
     @FXML
@@ -67,9 +69,12 @@ public class Controller implements Initializable {
     private ListView<File> songListView;
     @FXML
     public FontAwesomeIcon heart;
+    @FXML
+    private ScrollBar scrollBar;
     private ObservableList<File> items;
     private boolean favouriteIsOn=false;
     private HostServices hostServices;
+    private IntegerProperty activeSongIndex = new SimpleIntegerProperty(-1);
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1){
@@ -85,7 +90,9 @@ public class Controller implements Initializable {
         songListView.setItems(items);
         songListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             selectSong(newValue);
+            activeSongIndex.set(songListView.getSelectionModel().getSelectedIndex());
         });
+
 
         //removing .mp3 text and directories for sharing only track titles.
         songListView.setCellFactory(param -> new ListCell<File>() {
@@ -94,12 +101,26 @@ public class Controller implements Initializable {
                 super.updateItem(item, empty);
                 if (empty || item == null) {
                     setText(null);
+                    setStyle("");
                 } else {
                     setText(item.getName().replace(".mp3", ""));
+                    int currentIndex = getIndex();
+                    if (currentIndex == activeSongIndex.get()) {
+                        setStyle("-fx-underline: true;");
+                    } else {
+                        setStyle("");
+                    }
                 }
             }
         });
 
+        // Set the initial active song index
+        activeSongIndex.set(songListView.getSelectionModel().getSelectedIndex());
+
+        // Configure the listener for the media player status
+        activeSong();
+
+        setupScrollBar();
 
         //Speed of the song
         for( int i = 0; i < speed.length; i++) {
@@ -115,10 +136,6 @@ public class Controller implements Initializable {
         double volume = volumeSlider.getValue() * 0.01;
         mediaPlayer.setVolume(volume);
     }
-
-    /**
-     * Insert new songs from a list into media then building player with this list
-     */
     private void addSongs() {
         if(defaultDirectory !=null){
             for(File file: defaultDirectory){
@@ -126,16 +143,57 @@ public class Controller implements Initializable {
             }
         }
     }
+    private void activeSong() {
+        mediaPlayer.statusProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue == MediaPlayer.Status.PLAYING) {
+                int selectedIndex = songListView.getSelectionModel().getSelectedIndex();
+                songListView.getSelectionModel().clearAndSelect(selectedIndex);
+            }
+        });
+    }
 
     private void insertSong() {
         media = new Media(songList.get(songNumber).toURI().toString());
         mediaPlayer = new MediaPlayer(media);
+        totalDurationSong();
+        replaceMp3Format();
+    }
+    private void totalDurationSong() {
+        mediaPlayer.setOnReady(() -> {
+            Duration duration = mediaPlayer.getTotalDuration();
+            totalTimeLabel.setText(formatDuration(duration));
+        });
+    }
+    private void replaceMp3Format(){
         Platform.runLater(() -> {
             songLabel.setText(songList.get(songNumber).getName().replace(".mp3",""));
         });
     }
 
-    private void favourityTrackDirectory() {
+    private void setupScrollBar() {
+
+        scrollBar.setMin(0);
+        scrollBar.setMax(songList.size() - 1);
+        scrollBar.setVisibleAmount(1);
+        scrollBar.valueProperty().addListener((observable, oldValue, newValue) -> {
+            int selectedIndex = newValue.intValue();
+            songListView.getSelectionModel().clearAndSelect(selectedIndex);
+        });
+    }
+
+    private String formatDuration(Duration duration) {
+        long minutes = (long) duration.toMinutes();
+        long seconds = (long) duration.toSeconds() % 60;
+        return String.format("%02d:%02d", minutes, seconds);
+    }
+
+    private void currentTimeLabel (){
+        mediaPlayer.currentTimeProperty().addListener((observable, oldValue, newValue) -> {
+            currentTimeLabel.setText(formatDuration(newValue));
+        });
+    }
+
+    private void favouriteTrackDirectory() {
         items.setAll(songList);
         Platform.runLater(() -> {
             trackLabel.setText("FAVOURITE TRACKS");
@@ -186,8 +244,8 @@ public class Controller implements Initializable {
             mediaPlayer.setVolume(0);
         }
         checkColor();
+        currentTimeLabel();
         mediaPlayer.play();
-
     }
 
     public void muteOnOff(){
@@ -291,6 +349,7 @@ public class Controller implements Initializable {
         if (!isPlaying){
             isPlaying();
         }
+
         play();
     }
 
@@ -318,13 +377,13 @@ public class Controller implements Initializable {
         }
         mediaPlayer.stop();
         insertSong();
+
         endTimer();
     }
 
     private void selectSong(File song) {
 
         if (song != null){
-            System.out.println("Canción seleccionada: " + song.getName());
             for ( int i = 0; i < songList.size(); i++ ) {
                 if (songList.get(i).getName().equals(song.getName())){
                     songNumber = i;
@@ -433,7 +492,7 @@ public class Controller implements Initializable {
             songList.clear();
             favouriteIsOn = true;
             songList.addAll(favouriteSongList);
-            favourityTrackDirectory();
+            favouriteTrackDirectory();
             insertSong();
 
 

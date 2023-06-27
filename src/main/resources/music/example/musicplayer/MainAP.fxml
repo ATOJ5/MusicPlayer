@@ -12,6 +12,7 @@
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.ScrollBar?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.effect.DropShadow?>
@@ -26,7 +27,12 @@
       <Pane layoutX="58.0" layoutY="241.0" prefHeight="230.0" prefWidth="554.0" styleClass="trackPane">
          <children>
             <Label fx:id="trackLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="1.0" layoutY="15.0" prefHeight="30.0" prefWidth="552.0" styleClass="trackLabel" stylesheets="@main.css" text="TRACK LIST" textAlignment="CENTER" />
-            <ListView fx:id="songListView" layoutX="1.0" layoutY="45.0" prefHeight="202.0" prefWidth="552.0" styleClass="trackListView" stylesheets="@main.css" />
+            <ListView fx:id="songListView" layoutX="1.0" layoutY="45.0" prefHeight="202.0" prefWidth="552.0" stylesheets="@main.css">
+               <styleClass>
+                  <String fx:value="trackListView" />
+                  <String fx:value="underline-selected" />
+               </styleClass></ListView>
+            <ScrollBar fx:id="scrollBar" layoutX="533.0" layoutY="58.0" orientation="VERTICAL" prefHeight="158.0" prefWidth="14.0" />
          </children>
       </Pane>
       <Button fx:id="likeButtom" contentDisplay="CENTER" layoutX="315.0" layoutY="182.0" mnemonicParsing="false" onMouseClicked="#clickHearth" prefHeight="38.0" prefWidth="40.0" styleClass="transparent" stylesheets="@main.css" textAlignment="CENTER">
@@ -104,7 +110,7 @@
             <FontAwesomeIcon fill="WHITE" glyphName="STEP_FORWARD" size="1.5em" />
          </graphic>
       </Button>
-      <ComboBox fx:id="speedBox" layoutX="548.0" layoutY="89.0" onAction="#changeSpeed" onTouchReleased="#next" prefHeight="38.0" prefWidth="80.0" promptText="Speed" styleClass="grey" stylesheets="@main.css" />
+      <ComboBox fx:id="speedBox" layoutX="536.0" layoutY="97.0" onAction="#changeSpeed" onTouchReleased="#next" prefHeight="30.0" prefWidth="71.0" promptText="Speed" styleClass="grey" stylesheets="@main.css" />
       <Slider fx:id="volumeSlider" blockIncrement="5.0" layoutX="488.0" layoutY="167.0" onMouseDragged="#handleVolumeSliderMouseDragged" prefHeight="44.0" prefWidth="140.0" stylesheets="@main.css" value="50.0" />
       <CheckBox fx:id="shuffle" layoutX="87.0" layoutY="190.0" mnemonicParsing="false" onAction="#enDisRepeat" text="Shuffle" textFill="#ff6f1c" />
       <CheckBox fx:id="repeat" layoutX="14.0" layoutY="190.0" mnemonicParsing="false" onAction="#endDisShuffle" text="Repeat" textFill="#ff6f1c" />
@@ -213,7 +219,28 @@
             <Insets left="7.0" right="7.0" />
          </padding>
       </HBox>
-      <AnchorPane fx:id="aboutPane" layoutX="161.0" layoutY="20.0" prefHeight="280.0" prefWidth="374.0" styleClass="fondo" stylesheets="@main.css" visible="false">
+      <Button fx:id="youtubeButton" layoutX="277.0" layoutY="188.0" mnemonicParsing="false" onMouseClicked="#openYoutubeLink" styleClass="transparent" stylesheets="@main.css" textAlignment="CENTER" textFill="WHITE">
+         <graphic>
+            <FontAwesomeIcon fill="WHITE" glyphName="YOUTUBE" scaleX="2.0" scaleY="2.0" scaleZ="21.0" textAlignment="CENTER" />
+         </graphic>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <Button fx:id="spotify" layoutX="365.0" layoutY="188.0" mnemonicParsing="false" onMouseClicked="#openSpotifyLink" styleClass="transparent" stylesheets="@main.css" textAlignment="CENTER" textFill="WHITE">
+         <graphic>
+            <FontAwesomeIcon fill="WHITE" glyphName="SPOTIFY" scaleX="2.0" scaleY="2.0" scaleZ="21.0" textAlignment="CENTER" />
+         </graphic>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <Label fx:id="currentTimeLabel" layoutX="10.0" layoutY="47.0" text="00:00">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <AnchorPane fx:id="aboutPane" prefHeight="280.0" prefWidth="374.0" styleClass="fondo" stylesheets="@main.css" visible="false">
          <children>
             <VBox alignment="TOP_CENTER" onMouseDragged="#onMouseDragged" onMousePressed="#onMousePressed" prefHeight="323.0" prefWidth="374.0" styleClass="fondo" stylesheets="@main.css">
                <children>
@@ -226,13 +253,14 @@
                         <Insets />
                      </VBox.margin>
                   </Label>
-                  <Label fx:id="titleAbout" contentDisplay="CENTER" text="MusicPlayer 0.1.9" textAlignment="CENTER">
+                  <Label fx:id="titleAbout" contentDisplay="CENTER" text="MusicPlayer 0.2" textAlignment="CENTER">
                      <VBox.margin>
                         <Insets top="5.0" />
                      </VBox.margin>
                      <font>
                         <Font name="System Bold" size="13.0" />
-                     </font></Label>
+                     </font>
+                  </Label>
                   <Label fx:id="aboutText" contentDisplay="CENTER" prefHeight="120.0" prefWidth="374.0" styleClass="generalPanel" stylesheets="@main.css" text="This application allows you to play and manage your music library in a simple and customized way. With an intuitive and appealing interface, Music Player offers features such as song search, playlist creation, loop playback, and much more." textAlignment="CENTER" wrapText="true" />
                   <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0">
                      <children>
@@ -255,22 +283,11 @@
             </VBox>
          </children>
       </AnchorPane>
-      <Button fx:id="youtubeButton" layoutX="277.0" layoutY="188.0" mnemonicParsing="false" onMouseClicked="#openYoutubeLink" styleClass="transparent" stylesheets="@main.css" textAlignment="CENTER" textFill="WHITE">
-         <graphic>
-            <FontAwesomeIcon fill="WHITE" glyphName="YOUTUBE" scaleX="2.0" scaleY="2.0" scaleZ="21.0" textAlignment="CENTER" />
-         </graphic>
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </Button>
-      <Button fx:id="spotify" layoutX="365.0" layoutY="188.0" mnemonicParsing="false" onMouseClicked="#openSpotifyLink" styleClass="transparent" stylesheets="@main.css" textAlignment="CENTER" textFill="WHITE">
-         <graphic>
-            <FontAwesomeIcon fill="WHITE" glyphName="SPOTIFY" scaleX="2.0" scaleY="2.0" scaleZ="21.0" textAlignment="CENTER" />
-         </graphic>
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </Button>
+      <Label fx:id="totalTimeLabel" layoutX="600.0" layoutY="47.0" text="Label">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
    </children>
    <effect>
       <DropShadow />
